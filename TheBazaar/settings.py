@@ -81,8 +81,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
         'NAME': 'ORCL',
-        'USER': 'hr',
-        'PASSWORD': 'hr',
+        'USER': 'THE_BAZAAR',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '1521'
     }

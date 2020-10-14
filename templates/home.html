@@ -2,23 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Jobs</title>
+    <title>Demo Connection</title>
 </head>
 <body>
-<h1>Jobs</h1>
+<h1>Phone Number Table:</h1>
 <table>
     <tr style="background-color:lightgray">
-        <th>ID</th>
-        <th>Title</th>
-        <th>Min Salary</th>
-        <th>Max Salary</th>
+        <th>Phone_ID</th>
+        <th>Phone_Number</th>
     </tr>
-    {% for job in jobs %}
+    {% for job in phone_numbers %}
        <tr>
-           <td>{{job.job_id}}</td>
-           <td>{{job.job_title }}</td>
-           <td>{{job.min_salary}}</td>
-           <td>{{job.max_salary}}</td>
+           <td>{{job.phone_id}}</td>
+           <td>{{job.phone_no }}</td>
        </tr>
     {% endfor %}
 

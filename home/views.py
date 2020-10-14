@@ -10,20 +10,19 @@ def list_jobs(request):
     # result = cursor.fetchall()
 
     cursor = connection.cursor()
-    sql = "SELECT * FROM JOBS WHERE MIN_SALARY>%s"
-    cursor.execute(sql, [5000])
+    #sql = "SELECT * FROM JOBS WHERE MIN_SALARY>%s"
+    #cursor.execute(sql, [5000])
+    cursor.execute("SELECT * FROM PHONE_NUMBER")
     result = cursor.fetchall()
     cursor.close()
 
     dict_result = []
 
     for r in result:
-        job_id = r[0]
-        job_title = r[1]
-        min_salary = r[2]
-        max_salary = r[3]
-        row = {'job_id': job_id, 'job_title': job_title, 'min_salary': min_salary, 'max_salary': max_salary}
+        phone_id = r[0]
+        phone_no = r[1]
+        row = {'phone_id': phone_id, 'phone_no': phone_no}
         dict_result.append(row)
 
     # return render(request,'list_jobs.html',{'jobs' : Job.objects.all()})
-    return render(request, 'home.html', {'jobs': dict_result})
+    return render(request, 'home.html', {'phone_numbers': dict_result})
