@@ -40,15 +40,15 @@
     </nav>
 
 
-    <div class="content" style="margin-top: 10px">
+    <div class="product_grid" style="margin: auto; align-content: end; display: table">
                 <div class="row">
                     {% for p in products %}
 	                    <div class="column" style="padding: 10px">
-                            <div class="card" style="height: 220px; width: 175px; padding: 0">
-                                <img alt="{{ p.name }}" src="{{ p.image_link }}" width="100%" height="70%">
+                            <div class="card" style="height: 270px; width: 175px; padding: 0">
+                                <img alt="{{ p.name }}" src="{{ p.image_link }}" width="100%" height="180px">
                                 <div class="text_field">
                                     <div class="name" style="font-weight: 500">{{ p.name }}</div>
-                                    <div class="price" style="margin: auto; width:65px; height: 20px; background: orange; border-radius: 8px; font-size: 14px; font-weight: 600">TK. {{ p.price }}</div>
+                                    <div class="price" style="margin: auto; width:65px; height: 20px; color: #ffffff; border-radius: 8px; font-family: Calibri; font-size: 21px; font-weight: 800">TK. {{ p.price }}</div>
                                 </div>
                             </div>
                         </div>
@@ -58,6 +58,18 @@
                     {% endfor %}
                 </div>
     </div>
+
+    <div class="pager">
+        {% if products.has_next %}
+        <button class="next_page_button" onclick="location.href='/?page={{ products.next_page_number }}' ">Next Page ></button>
+        {% else %} <div class="end_page_div">End Page</div>
+        {% endif %}
+    </div>
+
+    <div class="footer">
+    </div>
+
+
 
 
 
