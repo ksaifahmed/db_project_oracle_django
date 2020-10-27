@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 import home.views as home_view
+import categories.views as categ_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view.load_home),
+    path('categories/<slug:slug>/', categ_view.load_category)
 
 ]

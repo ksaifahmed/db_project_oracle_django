@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <title>The Bazaar</title>
-    <link rel="stylesheet" href="{% static 'home/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'categories/style.css' %}" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
@@ -13,7 +13,7 @@
     <nav>
       <div class="menu-icon"><span class="fas fa-bars"></span></div>
       <div class="logo">
-        <img src="{% static 'home/bazaarlogo.png' %}" alt="Logo" width="100px" height="70px">
+        <img src="{% static 'categories/bazaarlogo.png' %}" alt="Logo" width="100px" height="70px">
       </div>
       <div class="nav-items">
         <li><a href="#Home">Home</a></li>
@@ -39,7 +39,9 @@
       </form>
     </nav>
 
-
+    <div class="category_title">
+        <h1>Category: {{ current_category.category }}</h1>
+    </div>
     <div class="product_grid" style="margin: auto; align-content: end; display: table">
                 <div class="row">
                     {% for p in products %}
@@ -76,7 +78,7 @@
 
 
      <!-- <img src="https://drive.google.com/thumbnail?id=170wMr1md1IPRPikSIlay05SMjmivy5FJ" alt="UwU" width="200" height="400"> -->
-      <script type="text/javascript" src="{% static 'home/script.js' %}"></script>
+      <script type="text/javascript" src="{% static 'categories/script.js' %}"></script>
 
   </body>
 </html>
