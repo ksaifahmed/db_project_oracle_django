@@ -20,7 +20,7 @@ def load_category(request, slug):
         category_dict.append(row)
 
     # Getting products list according to category:
-    sql = "SELECT NAME, BRAND, PRICE, IMAGE_LINK FROM PRODUCT WHERE CATEGORY = '" + categ + "'"
+    sql = "SELECT NAME, BRAND, PRICE, IMAGE_LINK, PRODUCT_ID FROM PRODUCT WHERE CATEGORY = '" + categ + "'"
     cursor.execute(sql)
     product_list = cursor.fetchall()
     cursor.close()
@@ -31,7 +31,8 @@ def load_category(request, slug):
         brand = r[1]
         price = r[2]
         image_link = r[3]
-        row = {'name': name, 'brand': brand, 'price': price, 'image_link':image_link}
+        id = r[4]
+        row = {'name': name, 'brand': brand, 'price': price, 'image_link': image_link, 'id': id}
         product_dict.append(row)
 
     # Dividing product_dict returned into 9 items per page of website

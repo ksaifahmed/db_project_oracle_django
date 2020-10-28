@@ -8,7 +8,7 @@ def load_home(request):
 
     # Getting categories of products:
     cursor = connection.cursor()
-    sql = "SELECT * FROM CATEGORY_NAME"
+    sql = "SELECT DISTINCT CATEGORY FROM PRODUCT"
     cursor.execute(sql)
     categories = cursor.fetchall()
     category_dict = []
@@ -18,7 +18,7 @@ def load_home(request):
         category_dict.append(row)
 
     # Getting products list:
-    sql = "SELECT NAME, BRAND, PRICE, IMAGE_LINK FROM PRODUCT"
+    sql = "SELECT NAME, BRAND, PRICE, IMAGE_LINK, PRODUCT_ID FROM PRODUCT"
     cursor.execute(sql)
     product_list = cursor.fetchall()
     cursor.close()
@@ -29,7 +29,8 @@ def load_home(request):
         brand = r[1]
         price = r[2]
         image_link = r[3]
-        row = {'name': name, 'brand': brand, 'price': price, 'image_link':image_link}
+        id = r[4]
+        row = {'name': name, 'brand': brand, 'price': price, 'image_link': image_link, 'id': id}
         product_dict.append(row)
 
     # Dividing product_dict returned into 9 items per page of website
