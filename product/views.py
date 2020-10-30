@@ -34,6 +34,19 @@ def load_product(request, slug):
         row = {'category': category}
         cat_dict.append(row)
 
+    #cursor.close()
+
+    q_dict = []
+
+    if request.method == 'POST':
+        data = request.POST['quantity']
+        quantity = {'quantity': data}
+        q_dict = quantity
+        #data = data + ""
+        #cid = '1'
+        #sql = "INSERT INTO CUSTOMER_PHONE(PHONE_NUMBER, CUSTOMER_ID) VALUES (" + data + "," + cid +")"
+        #cursor.execute(sql)
+
     cursor.close()
 
-    return render(request, 'productpage.html', {'product': product_dict, 'categories': cat_dict})
+    return render(request, 'productpage.html', {'product': product_dict, 'categories': cat_dict, 'quantity_selected': q_dict})

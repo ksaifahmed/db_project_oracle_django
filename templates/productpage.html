@@ -66,12 +66,16 @@
                 </div>
 
                 <div class="form">
-                    <form action="" class="quantity_form">
+                    <form action="" method="post" class="quantity_form">
+                        {% csrf_token %}
                         <label for="quantity">Quantity: </label>
                         <input type="number" class="input_field" id="quantity" name="quantity" min="1" max="5">
                         <input type="submit" class="cart_add" value="Add to Cart" style="display: block">
                     </form>
                 </div>
+                {% if quantity_selected.quantity %}
+                    <p>Quantity: {{ quantity_selected.quantity }}</p>
+                {% endif %}
 
 
             </div>

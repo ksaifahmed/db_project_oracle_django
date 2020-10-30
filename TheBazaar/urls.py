@@ -18,11 +18,13 @@ from django.urls import path
 import home.views as home_view
 import categories.views as categ_view
 import product.views as prod_views
+import register.views as reg_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view.load_home),
     path('categories/<slug:slug>/', categ_view.load_category),
-    path('product/<slug:slug>/', prod_views.load_product)
+    path('product/<slug:slug>/', prod_views.load_product),
+    path('register/', reg_views.load_data)
 
 ]
