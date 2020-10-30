@@ -10,7 +10,7 @@ def load_category(request, slug):
 
     # Getting categories of products:
     cursor = connection.cursor()
-    sql = "SELECT DISTINCT CATEGORY FROM PRODUCT"
+    sql = "SELECT DISTINCT CATEGORY FROM PRODUCT;"
     cursor.execute(sql)
     categories = cursor.fetchall()
     category_dict = []
@@ -20,7 +20,7 @@ def load_category(request, slug):
         category_dict.append(row)
 
     # Getting products list according to category:
-    sql = "SELECT NAME, BRAND, PRICE, IMAGE_LINK, PRODUCT_ID FROM PRODUCT WHERE CATEGORY = '" + categ + "'"
+    sql = "SELECT NAME, BRAND, PRICE, IMAGE_LINK, PRODUCT_ID FROM PRODUCT WHERE CATEGORY = '" + categ + "';"
     cursor.execute(sql)
     product_list = cursor.fetchall()
     cursor.close()

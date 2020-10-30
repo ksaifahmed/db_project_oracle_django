@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from django.db import connection
 from django.core.paginator import Paginator
-from importlib import import_module
-from django.conf import settings
 
 
 # Create your views here.
@@ -10,7 +8,7 @@ def load_home(request):
 
     # Getting categories of products:
     cursor = connection.cursor()
-    sql = "SELECT DISTINCT CATEGORY FROM PRODUCT"
+    sql = "SELECT DISTINCT CATEGORY FROM PRODUCT;"
     cursor.execute(sql)
     categories = cursor.fetchall()
     category_dict = []
@@ -20,7 +18,7 @@ def load_home(request):
         category_dict.append(row)
 
     # Getting products list:
-    sql = "SELECT NAME, BRAND, PRICE, IMAGE_LINK, PRODUCT_ID FROM PRODUCT"
+    sql = "SELECT NAME, BRAND, PRICE, IMAGE_LINK, PRODUCT_ID FROM PRODUCT;"
     cursor.execute(sql)
     product_list = cursor.fetchall()
     cursor.close()

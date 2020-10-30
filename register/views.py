@@ -1,6 +1,6 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.db import connection
-from django.contrib import messages
 
 
 def load_data(request):
@@ -28,10 +28,10 @@ def load_data(request):
         sql = "SELECT PHONE_NUMBER FROM CUSTOMER_PHONE WHERE PHONE_NUMBER = " + phone_num_1 + ";"
         cursor.execute(sql)
         if cursor.rowcount == 0:
-            messages.warning(request, 'phone exists')
+            return HttpResponse('Phone Number Already In Use')
 
         # new customer_id(pk) is max(id)+1
-        sql = "SELECT MAX(CUSTOMER_ID) FROM CUSTOMER"
+        sql = "SELECT MAX(CUSTOMER_ID) FROM CUSTOMER;"
         cursor.execute(sql)
         val = cursor.fetchall()
         max_id = 0
@@ -44,9 +44,8 @@ def load_data(request):
         age = str(age)
         postal_code = str(postal_code)
         bank = str(bank)
-        #sql = "INSERT INTO CUSTOMER(CUSTOMER_ID,FIRST_NAME,LAST_NAME,AGE,BANK_ACCOUNT,GENDER,EMAIL,PASSWORD,HOUSE_NO,STREET,POSTAL_CODE,CITY) VALUES(" + new_id + ", '" + first_name + "', '" + last_name + "', " + age + ", " + bank + ", '" + gender + "', '" + email + "', '" + password + "', '" + house + "', '" + street + "', " + postal_code + ", '" + city + "')"
-        #sql = "INSERT INTO CUSTOMER_PHONE(PHONE_NUMBER,CUSTOMER_ID) VALUES("+ age +", "+ id +")"
-        #cursor.execute(sql)
+        sql = "INSERT INTO CUSTOMER(CUSTOMER_ID,FIRST_NAME,LAST_NAME,AGE,BANK_ACCOUNT,GENDER,EMAIL,PASSWORD,HOUSE_NO,STREET,POSTAL_CODE,CITY) VALUES(" + new_id + ", '" + first_name + "', '" + last_name + "', " + age + ", " + bank + ", '" + gender + "', '" + email + "', '" + password + "', '" + house + "', '" + street + "', " + postal_code + ", '" + city + "');"
+        cursor.execute(sql)
         cursor.close()
         return render(request, 'register.html')
     else:

@@ -5,7 +5,7 @@ from django.db import connection
 def load_product(request, slug):
     cursor = connection.cursor()
     print(id)
-    sql = "SELECT * FROM PRODUCT WHERE PRODUCT_ID = " + slug
+    sql = "SELECT * FROM PRODUCT WHERE PRODUCT_ID = " + slug +";"
     cursor.execute(sql)
     table = cursor.fetchall()
     product_dict = []
@@ -24,7 +24,7 @@ def load_product(request, slug):
             }
         product_dict = row
 
-    sql = "SELECT DISTINCT CATEGORY FROM PRODUCT"
+    sql = "SELECT DISTINCT CATEGORY FROM PRODUCT;"
     cursor.execute(sql)
     table = cursor.fetchall()
     cat_dict = []
