@@ -1,12 +1,24 @@
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.db import connection
+from django.shortcuts import redirect
+from django.http import JsonResponse, HttpResponse
+import login.views as loginview
+
+
+def response_email(request):
+    data = {'response': 'EMAIL already in use'}
+    return JsonResponse(data)
+
+
+def response_phone(request):
+    data = {'response': 'Phone Number already in use'}
+    return JsonResponse(data)
 
 
 def load_data(request):
-    cursor = connection.cursor()
 
     if request.method == 'POST':
+        cursor = connection.cursor()
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         age = request.POST['age']
@@ -18,37 +30,98 @@ def load_data(request):
         street = request.POST['street']
         postal_code = request.POST['postal_code']
         city = request.POST['city']
-        phone_num_1 = request.POST['phone_number_1']
-        phone_num_2 = request.POST['phone_number_2']
+        phone_number = request.POST['phone_number']
+        phone_number2 = request.POST['phone_number2']
+        phone_number3 = request.POST['phone_number3']
 
-        phone_num_1 = str(phone_num_1)
-        phone_num_2 = str(phone_num_2)
+        eligible = True
 
-        # checking whether email exists:
-        sql = "SELECT PHONE_NUMBER FROM CUSTOMER_PHONE WHERE PHONE_NUMBER = " + phone_num_1 + ";"
+        # check email separately:
+        # used specific sql which retrieves one email only
+        sql = "SELECT EMAIL FROM CUSTOMER WHERE EMAIL = '" + email + "';"
         cursor.execute(sql)
-        if cursor.rowcount == 0:
-            return HttpResponse('Phone Number Already In Use')
+        Emails = cursor.fetchall()
+        email_fetched = ""
+        if cursor.rowcount > 0:
+            email_fetched = [x[0] for x in Emails]
+            email_fetched = str(email_fetched[0])
+        if email_fetched == email:
+            eligible = False
+            return HttpResponse('Email already in use')
 
-        # new customer_id(pk) is max(id)+1
-        sql = "SELECT MAX(CUSTOMER_ID) FROM CUSTOMER;"
+        # check phone1 separately:
+        # used specific sql which retrieves one phone only
+        sql = "SELECT PHONE_NUMBER FROM CUSTOMER_PHONE WHERE PHONE_NUMBER = '" + phone_number + "';"
+        cursor.execute(sql)
+        number1 = cursor.fetchall()
+        number_fetched = -1
+        if cursor.rowcount > 0:
+            number_fetched = [x[0] for x in number1]
+            number_fetched = str(number_fetched[0])
+        if number_fetched == phone_number:
+            eligible = False
+            return HttpResponse('Phone Number 1 Already in use')
+
+        # same as above phone number1:
+        if phone_number2 != "":
+            sql = "SELECT PHONE_NUMBER FROM CUSTOMER_PHONE WHERE PHONE_NUMBER = '" + phone_number2 + "';"
+            cursor.execute(sql)
+            number2 = cursor.fetchall()
+            number_fetched = -1
+            if cursor.rowcount > 0:
+                number_fetched = [x[0] for x in number2]
+                number_fetched = str(number_fetched[0])
+            if number_fetched == phone_number2:
+                eligible = False
+                return HttpResponse('Phone Number 2 Already in use')
+
+        # same as above phone number1:
+        if phone_number3 != "":
+            sql = "SELECT PHONE_NUMBER FROM CUSTOMER_PHONE WHERE PHONE_NUMBER = '" + phone_number3 + "';"
+            cursor.execute(sql)
+            number3 = cursor.fetchall()
+            number_fetched = -1
+            if cursor.rowcount > 0:
+                number_fetched = [x[0] for x in number3]
+                number_fetched = str(number_fetched[0])
+            if number_fetched == phone_number3:
+                eligible = False
+                return HttpResponse('Phone Number 3 Already in use')
+
+        sql = "SELECT MAX(CUSTOMER_ID) FROM CUSTOMER"
         cursor.execute(sql)
         val = cursor.fetchall()
-        max_id = 0
+        cid = 0
         for x in val:
-            max_id = x[0]
-        max_id +=1
-
-        # inserting into customer table:
-        new_id = str(max_id)
+            cid = x[0]
+        cid += 1
+        cid = str(cid)
         age = str(age)
         postal_code = str(postal_code)
         bank = str(bank)
-        sql = "INSERT INTO CUSTOMER(CUSTOMER_ID,FIRST_NAME,LAST_NAME,AGE,BANK_ACCOUNT,GENDER,EMAIL,PASSWORD,HOUSE_NO,STREET,POSTAL_CODE,CITY) VALUES(" + new_id + ", '" + first_name + "', '" + last_name + "', " + age + ", " + bank + ", '" + gender + "', '" + email + "', '" + password + "', '" + house + "', '" + street + "', " + postal_code + ", '" + city + "');"
-        cursor.execute(sql)
-        cursor.close()
-        return render(request, 'register.html')
+
+        # tui customer data insert korsish even when phone number exists, i fixed
+        # shob thik holey customer table e age insert erpor phone_table e insert
+        if eligible:
+            sql = "INSERT INTO CUSTOMER(CUSTOMER_ID,FIRST_NAME,LAST_NAME,AGE,BANK_ACCOUNT,GENDER,EMAIL,PASSWORD,HOUSE_NO,STREET,POSTAL_CODE,CITY) VALUES(" + cid + ", '" + first_name + "', '" + last_name + "', " + age + ", " + bank + ", '" + gender + "', '" + email + "', '" + password + "', '" + house + "', '" + street + "', " + postal_code + ", '" + city + "');"
+            cursor.execute(sql)
+
+            sql = "INSERT INTO CUSTOMER_PHONE(PHONE_NUMBER,CUSTOMER_ID) VALUES(" + phone_number + ", " + cid + ");"
+            cursor.execute(sql)
+
+            if phone_number2 != "":
+                sql = "INSERT INTO CUSTOMER_PHONE(PHONE_NUMBER,CUSTOMER_ID) VALUES(" + phone_number2 + ", " + cid + ");"
+                cursor.execute(sql)
+
+            if phone_number3 != "":
+                sql = "INSERT INTO CUSTOMER_PHONE(PHONE_NUMBER,CUSTOMER_ID) VALUES(" + phone_number3 + ", " + cid + ");"
+                cursor.execute(sql)
+
+        return redirect(loginview.load_login)  # sends to login when registered
+
     else:
         return render(request, 'register.html')
+
+
 
 

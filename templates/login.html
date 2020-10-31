@@ -2,10 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>login</title>
+    <title> ~ SIGN IN TO YOUR ACCOUNT ~</title>
 </head>
 <body>
-<h4>{{ row.row }}</h4>
+    {% if message %}
+        <h3>{{ message }}</h3>
+    {% endif %}
+<form class="form" action="" method="post">
+            {% csrf_token %}
+            <div class="inputfield">
+                <label>Email ID</label>
+                <input type="text" class="input" name="email" required>
+            </div>
+
+            <div class="inputfield">
+                <label>Password</label>
+                <input type="password" id="password" class="input" name="password" required>
+            </div>
+
+             <div class="inputfield">
+                <input type="submit" value="LOG IN" class="btn">
+            </div>
+
+</form>
 
 </body>
 </html>

@@ -41,16 +41,18 @@
                 <div class="custom_select">
                     <select name="gender" required>
                         <option value=""></option>
-                        <option value="MALE">Male</option>
-                        <option value="FEMALE">Female</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
                     </select>
                 </div>
             </div>
 
             <div class="inputfield">
                 <label>Email Address</label>
-                <input type="email" class="input" name="email" required>
+                <input type="email" class="input" name="email" id="email_id" required>
             </div>
+
+            <p id="email_prompt"></p>
 
             <div class="inputfield">
                 <label>Password</label>
@@ -64,12 +66,17 @@
 
             <div class="inputfield">
                 <label>Phone Number 1</label>
-                <input id="phone1" type="number" class="input" name="phone_number_1" required>
+                <input id="phone1" type="number" class="input" name="phone_number" required>
             </div>
 
             <div class="inputfield">
                 <label>Phone Number 2 (optional)</label>
-                <input id="phone2" type="number" class="input" name="phone_number_2">
+                <input id="phone2" type="number" class="input" name="phone_number2">
+            </div>
+
+            <div class="inputfield">
+                <label>Phone Number 3 (optional)</label>
+                <input id="phone3" type="number" class="input" name="phone_number3">
             </div>
 
             <div class="inputfield">
@@ -93,7 +100,7 @@
             </div>
 
             <div class="inputfield">
-                <input type="submit" value="Register" class="btn">
+                <input type="submit" value="Register" class="btn" id="send" onClick="setTimeout(window.close, 10);">
             </div>
 
         </form>
@@ -101,6 +108,23 @@
     </div>
 
     <script type="text/javascript" src="{% static 'register/script.js' %}"></script>
+    <!--
+    <script>
+        $("#send").click(function () {
+        var input = $('#email_id').val();
+
+        $.ajax({
+            url: '',
+            data: {
+            'inputValue': input
+            },
+            dataType: 'json',
+            success: function (data) {
+                document.getElementById('email_prompt').innerHTML = data["response"];
+            }
+      });
+    });
+    </script> -->
 
 </body>
 </html>
