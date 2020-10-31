@@ -1,10 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import connection
 from django.core.paginator import Paginator
+from login.views import load_login
 
 
 # Create your views here.
 def load_home(request):
+
+    # send to login if no session exists:
+    if not('customer_id' in request.session):
+        return redirect(load_login)
 
     # Getting categories of products:
     cursor = connection.cursor()

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.db import connection
 import home.views as homeview
 
+
 # sets customer id as a cookie in browser
 def set_session(request, email):
     cursor = connection.cursor()
@@ -18,26 +19,16 @@ def set_session(request, email):
     request.session['customer_id'] = c_id
 
 
-# Dummy function for testing cookies
-def load_login2(request):
-    # if already logged in:
-    if 'customer_id' in request.session:
-        return redirect(homeview.load_home)
-
-    # if login successful, set session:
-    success = True
-    if success:
-        email = "mehrab13@gmail.com"
-        set_session(request, email)
-        return redirect(homeview.load_home)
-
-    return render(request, "login.html")
+def del_session(request):
+    request.session.flush()
+    request.session.clear_expired()
+    return redirect(load_login)
 
 
 def load_login(request):
     # if already logged in:
     if 'customer_id' in request.session:
-        return redirect(homeview.load_home) # sends to home view
+        return redirect(homeview.load_home)  # sends to home view
 
     if request.method == 'POST':
         cursor = connection.cursor()

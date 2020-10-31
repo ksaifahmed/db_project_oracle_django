@@ -1,30 +1,88 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title> ~ SIGN IN TO YOUR ACCOUNT ~</title>
+	<title>Login V12</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{% static 'login/images/icons/favicon.ico' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'login/vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'login/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'login/vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'login/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'login/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'login/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'login/css/main.css' %}">
+<!--===============================================================================================-->
 </head>
 <body>
-    {% if message %}
-        <h3>{{ message }}</h3>
-    {% endif %}
-<form class="form" action="" method="post">
-            {% csrf_token %}
-            <div class="inputfield">
-                <label>Email ID</label>
-                <input type="text" class="input" name="email" required>
-            </div>
 
-            <div class="inputfield">
-                <label>Password</label>
-                <input type="password" id="password" class="input" name="password" required>
-            </div>
 
-             <div class="inputfield">
-                <input type="submit" value="LOG IN" class="btn">
-            </div>
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-t-20 p-b-30">
+				<form class="login100-form validate-form" method="post" action="">
+                    {% csrf_token %}
+					<div class="login100-form-avatar">
+						<img src="{% static 'login/images/avatar-01.jpg' %}" alt="AVATAR">
+					</div>
 
-</form>
+					<span class="login100-form-title p-t-20 p-b-45">
+						The Bazaar
+					</span>
+
+					<div class="wrap-input100 validate-input m-b-10" data-validate = "Username is required">
+						<input class="input100" type="text" name="email" placeholder="Username">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-user"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input m-b-10" data-validate = "Password is required">
+						<input class="input100" type="password" name="password" placeholder="Password">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock"></i>
+						</span>
+					</div>
+
+					<div class="container-login100-form-btn p-t-10">
+						<button class="login100-form-btn">
+							Login
+						</button>
+					</div>
+
+					<div class="text-center w-full p-t-25 p-b-200">
+						<a href="{% url 'register' %}" class="txt1">
+							Create New Account
+						</a>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+<!--===============================================================================================-->
+	<script src="{% static 'login/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'login/vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'login/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'login/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'login/js/main.js' %}"></script>
 
 </body>
 </html>

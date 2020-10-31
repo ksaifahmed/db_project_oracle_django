@@ -5,126 +5,203 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Registration Form</title>
-    <link rel="stylesheet" href="{% static 'register/style.css' %}" type="text/css">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'register/vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'register/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'register/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'register/vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'register/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'register/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'register/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'register/css/main.css' %}">
 </head>
 <body>
 
-    <div class="wrapper">
-        <div class="title">
-            Registration Form
-        </div>
-
-        <form class="form" action="" method="post">
+    <div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-t-20 p-b-30">
+        <form class="login100-form validate-form" action="" method="post">
             {% csrf_token %}
-            <div class="inputfield">
-                <label>First Name</label>
-                <input type="text" class="input" name="first_name" required>
-            </div>
 
-            <div class="inputfield">
-                <label>Last Name</label>
-                <input type="text" class="input" name="last_name" required>
-            </div>
+            <div class="login100-form-avatar">
+						<img src="{% static 'login/images/avatar-01.jpg' %}" alt="AVATAR">
+					</div>
+            <span class="login100-form-title p-t-20 p-b-45">
+						Create an account
+            </span>
 
-            <div class="inputfield">
-                <label>Age</label>
-                <input type="number" class="input" min="1" max="100" name="age" required>
-            </div>
+            <div class="wrap-input100 validate-input m-b-10" data-validate = "First Name is required">
+						<input class="input100" type="text" name="first_name" placeholder="First Name">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-user"></i>
+						</span>
+					</div>
 
-            <div class="inputfield">
-                <label>Bank A/C Number (optional)</label>
-                <input type="number" class="input" min="1" name="bank">
-            </div>
 
-            <div class="inputfield">
-                <label>Gender</label>
+            <div class="wrap-input100 validate-input m-b-10" data-validate = "Last Name is required">
+						<input class="input100" type="text" name="last_name" placeholder="Last Name">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-user"></i>
+						</span>
+					</div>
+
+
+            <div class="wrap-input100 validate-input m-b-10" data-validate = "Age is required">
+						<input class="input100" type="number" name="age" min="1" max="100" placeholder="Age">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-child"></i>
+						</span>
+					</div>
+
+
+            <div class="wrap-input100 m-b-10">
+						<input class="input100" min="1" type="number" name="bank" placeholder="Bank A/C Number (Optional)">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-bitcoin"></i>
+						</span>
+					</div>
+
+
+            <div class="wrap-input100 validate-input m-b-10">
                 <div class="custom_select">
-                    <select name="gender" required>
-                        <option value=""></option>
+                    <select class ="input100" name="gender"  required>
+                        <option value="">Select Gender</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
+
                     </select>
+                    <span class="symbol-input100">
+							<i class="fa fa-smile-o"></i>
+						</span>
+
                 </div>
             </div>
 
-            <div class="inputfield">
-                <label>Email Address</label>
-                <input type="email" class="input" name="email" id="email_id" required>
+
+            <div class="wrap-input100 validate-input m-b-10" data-validate = "Email is required">
+						<input class="input100" type="text" name="email" placeholder="Email">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-envelope"></i>
+						</span>
+					</div>
+
+
+
+            <div class="wrap-input100 validate-input m-b-10" data-validate = "Password is required">
+						<input id="password" class="input100" type="password" name="password" placeholder="Password">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-user-secret"></i>
+						</span>
+					</div>
+
+
+            <div class="wrap-input100 validate-input m-b-10" data-validate = "Password Confirmation is required">
+						<input id="confirm_password" class="input100" type="password" name="confirm_password" placeholder="Confirm Password">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-user-secret"></i>
+						</span>
+					</div>
+
+            <div class="wrap-input100 validate-input m-b-10" data-validate = "Phone No is required">
+						<input id="phone1" class="input100" type="number" name="phone_number" placeholder="Phone Number">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-mobile"></i>
+						</span>
+					</div>
+
+
+            <div class="wrap-input100 m-b-10">
+						<input id="phone2" class="input100" type="number" name="phone_number2" placeholder="Phone No 2 (optional)">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-mobile-phone"></i>
+						</span>
+					</div>
+
+            <div class="wrap-input100 m-b-10">
+						<input id="phone3" class="input100" type="number" name="phone_number3" placeholder="Phone No 3 (optional)">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-mobile-phone"></i>
+						</span>
+					</div>
+
+
+            <div class="wrap-input100 validate-input m-b-10" data-validate = "House No is required">
+						<input class="input100" type="text" name="house" placeholder="House No">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-home"></i>
+						</span>
+					</div>
+
+            <div class="wrap-input100 validate-input m-b-10" data-validate = "Street is required">
+						<input class="input100" type="text" name="street" placeholder="Street">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-road"></i>
+						</span>
+					</div>
+
+            <div class="wrap-input100 validate-input m-b-10" data-validate = "Postal Code is required">
+						<input class="input100" type="number" name="postal_code" placeholder="Postal Code">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-address-book-o"></i>
+						</span>
+					</div>
+
+            <div class="wrap-input100 validate-input m-b-10" data-validate = "City is required">
+						<input class="input100" type="text" name="city" placeholder="City">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-building"></i>
+						</span>
+					</div>
+
+
+            <div class="container-login100-form-btn p-t-10">
+						<button class="login100-form-btn">
+							REGISTER
+						</button>
+					</div>
+
+
+            <div class="text-center w-full p-t-25 p-b-200">
+						<a href="{% url 'login' %}" class="txt1">
+                            Sign Into your account
+						</a>
+					</div>
+
+
+                </form>
             </div>
+		</div>
+	</div>
 
-            <p id="email_prompt"></p>
-
-            <div class="inputfield">
-                <label>Password</label>
-                <input type="password" id="password" class="input" name="password" required>
-            </div>
-
-            <div class="inputfield">
-                <label>Confirm Password</label>
-                <input type="password" id="confirm_password" class="input" name="confirm_password" required>
-            </div>
-
-            <div class="inputfield">
-                <label>Phone Number 1</label>
-                <input id="phone1" type="number" class="input" name="phone_number" required>
-            </div>
-
-            <div class="inputfield">
-                <label>Phone Number 2 (optional)</label>
-                <input id="phone2" type="number" class="input" name="phone_number2">
-            </div>
-
-            <div class="inputfield">
-                <label>Phone Number 3 (optional)</label>
-                <input id="phone3" type="number" class="input" name="phone_number3">
-            </div>
-
-            <div class="inputfield">
-                <label>House</label>
-                <input type="text" class="input" name="house" required>
-            </div>
-
-            <div class="inputfield">
-                <label>Street</label>
-                <input type="text" class="input" name="street" required>
-            </div>
-
-            <div class="inputfield">
-                <label>Postal Code</label>
-                <input type="number" class="input" name="postal_code" required>
-            </div>
-
-            <div class="inputfield">
-                <label>City</label>
-                <input type="text" class="input" name="city" required>
-            </div>
-
-            <div class="inputfield">
-                <input type="submit" value="Register" class="btn" id="send" onClick="setTimeout(window.close, 10);">
-            </div>
-
-        </form>
-
-    </div>
-
-    <script type="text/javascript" src="{% static 'register/script.js' %}"></script>
-    <!--
-    <script>
-        $("#send").click(function () {
-        var input = $('#email_id').val();
-
-        $.ajax({
-            url: '',
-            data: {
-            'inputValue': input
-            },
-            dataType: 'json',
-            success: function (data) {
-                document.getElementById('email_prompt').innerHTML = data["response"];
-            }
-      });
-    });
-    </script> -->
+<script src="{% static 'register/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'register/vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'register/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'register/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'register/js/main.js' %}"></script>
 
 </body>
 </html>

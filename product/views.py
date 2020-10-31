@@ -1,8 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import connection
+from login.views import load_login
 
 
 def load_product(request, slug):
+
+    # send to login if no session exists:
+    if not('customer_id' in request.session):
+        return redirect(load_login)
+
     cursor = connection.cursor()
     print(id)
     sql = "SELECT * FROM PRODUCT WHERE PRODUCT_ID = " + slug +";"

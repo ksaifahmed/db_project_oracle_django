@@ -88,6 +88,10 @@ def load_data(request):
                 eligible = False
                 return HttpResponse('Phone Number 3 Already in use')
 
+        # INSERTING A NULL BANK A/C
+        if bank == "":
+            bank = "NULL"
+
         sql = "SELECT MAX(CUSTOMER_ID) FROM CUSTOMER"
         cursor.execute(sql)
         val = cursor.fetchall()
@@ -118,10 +122,7 @@ def load_data(request):
                 cursor.execute(sql)
 
         return redirect(loginview.load_login)  # sends to login when registered
+        #return render(request, 'register.html')
 
     else:
         return render(request, 'register.html')
-
-
-
-
