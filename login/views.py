@@ -1,6 +1,13 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.db import connection
 import home.views as homeview
+
+
+# sending data to AJAX function:
+def response_password(request):
+    data = {'response': 'Wrong Password Given'}
+    return JsonResponse(data)
 
 
 # sets customer id as a cookie in browser

@@ -11,9 +11,22 @@ def load_home(request):
     if not('customer_id' in request.session):
         return redirect(load_login)
 
-    # Getting categories of products:
+    # Getting categories of products in stock:
     cursor = connection.cursor()
-    sql = "SELECT DISTINCT CATEGORY FROM PRODUCT;"
+    sql = """SELECT DISTINCT CATEGORY
+            FROM PRODUCT
+            WHERE PRODUCT_ID = ANY(
+                SELECT PRODUCT_ID 
+                FROM STOCK 
+                WHERE EXPIRE_DATE > SYSDATE AND QUANTITY > 0
+            
+            UNION
+            
+                SELECT PRODUCT_ID
+                FROM STOCK WHERE
+                EXPIRE_DATE IS NULL AND QUANTITY > 0
+            );"""
+
     cursor.execute(sql)
     categories = cursor.fetchall()
     category_dict = []
@@ -22,8 +35,24 @@ def load_home(request):
         row = {'category': category}
         category_dict.append(row)
 
-    # Getting products list:
-    sql = "SELECT NAME, BRAND, PRICE, IMAGE_LINK, PRODUCT_ID FROM PRODUCT;"
+    # Getting products list in stock:
+    sql = """SELECT NAME, BRAND, PRICE, IMAGE_LINK, PRODUCT_ID, o.DESCRIPTION
+            FROM THE_BAZAAR.PRODUCT p, THE_BAZAAR.OFFER o
+            WHERE p.PRODUCT_ID = 
+            ANY(
+                SELECT PRODUCT_ID 
+                FROM THE_BAZAAR.STOCK 
+                WHERE EXPIRE_DATE > SYSDATE AND QUANTITY > 0
+            
+            UNION
+            
+                SELECT PRODUCT_ID
+                FROM THE_BAZAAR.STOCK WHERE
+                EXPIRE_DATE IS NULL AND QUANTITY > 0
+            )
+            
+            AND p.OFFER_ID = o.OFFER_ID(+);"""
+
     cursor.execute(sql)
     product_list = cursor.fetchall()
     cursor.close()
@@ -34,9 +63,12 @@ def load_home(request):
         brand = r[1]
         price = r[2]
         image_link = r[3]
-        id = r[4]
-        row = {'name': name, 'brand': brand, 'price': price, 'image_link': image_link, 'id': id}
+        pid = r[4]
+        discount = r[5]
+        row = {'name': name, 'brand': brand, 'price': price, 'image_link': image_link, 'id': pid, 'discount': discount}
         product_dict.append(row)
+
+
 
     # Dividing product_dict returned into 9 items per page of website
     # /?page=2 is the url of second page

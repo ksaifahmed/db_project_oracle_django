@@ -38,7 +38,7 @@
         <button type="submit" class="fas fa-search"></button>
       </form>
     </nav>
-
+    <div class="container">
         <div class="row">
 
 
@@ -59,17 +59,23 @@
                     {% if product.brand %}
                         <p class="brand">Brand: {{ product.brand }}</p>
                     {% endif %}
+                    <p class="quantity_left">{{ product.quantity_left }} left in stock</p>
+
                 </div>
 
                 <div class="product_price">
                     Tk {{ product.price }}
                 </div>
 
+                {% if product.discount %}
+                    <p class="discount">{{ product.discount }}</p>
+                {% endif %}
+
                 <div class="form">
                     <form action="" method="post" class="quantity_form">
                         {% csrf_token %}
                         <label for="quantity">Quantity: </label>
-                        <input type="number" class="input_field" id="quantity" name="quantity" min="1" max="5">
+                        <input type="number" class="input_field" id="quantity" name="quantity" min="1" max="{{ product.quantity_left }}">
                         <input type="submit" class="cart_add" value="Add to Cart" style="display: block">
                     </form>
                 </div>
@@ -77,11 +83,11 @@
                     <p>Quantity: {{ quantity_selected.quantity }}</p>
                 {% endif %}
 
-
             </div>
 
 
         </div>
+    </div>
 
     <script type="text/javascript" src="{% static 'home/script.js' %}"></script>
 

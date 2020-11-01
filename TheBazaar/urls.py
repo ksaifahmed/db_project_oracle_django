@@ -28,6 +28,7 @@ urlpatterns = [
     path('product/<slug:slug>/', prod_views.load_product),
     path('register/', reg_views.load_data, name='register'),
     path('login/', login_views.load_login, name='login'),
-    path('logout/', login_views.del_session)
+    path('logout/', login_views.del_session),
+    path('login/validate', login_views.response_password, name='wrong_password')
 
 ]

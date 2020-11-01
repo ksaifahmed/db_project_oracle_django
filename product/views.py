@@ -10,27 +10,44 @@ def load_product(request, slug):
         return redirect(load_login)
 
     cursor = connection.cursor()
-    print(id)
-    sql = "SELECT * FROM PRODUCT WHERE PRODUCT_ID = " + slug +";"
+    sql = """SELECT p.PRODUCT_ID, p.NAME, p.CATEGORY, p.BRAND, p.PRICE, p.DESCRIPTION, o.DESCRIPTION AS DISCOUNT, p.IMAGE_LINK, s.quantity
+            FROM THE_BAZAAR.PRODUCT p, THE_BAZAAR.OFFER o, THE_BAZAAR.STOCK s
+            WHERE p.OFFER_ID = o.OFFER_ID(+)
+            AND p.PRODUCT_ID = s.PRODUCT_ID
+            AND p.PRODUCT_ID = """ + slug + """;"""
     cursor.execute(sql)
     table = cursor.fetchall()
     product_dict = []
     for r in table:
-        #id = r[0]
+        id = r[0]
         name = r[1]
         category = r[2]
         brand = r[3]
         price = r[4]
         description = r[5]
-        offer_id = r[6]
+        discount = r[6]
         image_link = r[7]
+        quantity_left = r[8]
         row = {
-            'name': name, 'category': category, 'brand': brand, 'price': price,
-            'description': description, 'offer_id': offer_id, 'image_link': image_link
+            'id': id, 'name': name, 'category': category, 'brand': brand, 'price': price,
+            'description': description, 'discount': discount, 'image_link': image_link, 'quantity_left': quantity_left
             }
         product_dict = row
 
-    sql = "SELECT DISTINCT CATEGORY FROM PRODUCT;"
+    sql = """SELECT DISTINCT CATEGORY
+            FROM PRODUCT
+            WHERE PRODUCT_ID = ANY(
+                SELECT PRODUCT_ID 
+                FROM STOCK 
+                WHERE EXPIRE_DATE > SYSDATE AND QUANTITY > 0
+
+            UNION
+
+                SELECT PRODUCT_ID
+                FROM STOCK WHERE
+                EXPIRE_DATE IS NULL AND QUANTITY > 0
+            );"""
+
     cursor.execute(sql)
     table = cursor.fetchall()
     cat_dict = []
@@ -48,10 +65,6 @@ def load_product(request, slug):
         data = request.POST['quantity']
         quantity = {'quantity': data}
         q_dict = quantity
-        #data = data + ""
-        #cid = '1'
-        #sql = "INSERT INTO CUSTOMER_PHONE(PHONE_NUMBER, CUSTOMER_ID) VALUES (" + data + "," + cid +")"
-        #cursor.execute(sql)
 
     cursor.close()
 

@@ -291,6 +291,8 @@ nav .logo.space{
 .row {
   margin: 0 -5px;
   display: inline;
+  color: darkcyan;
+  background-image: image(#fec107);
 }
 
 /* Clear floats after the columns */
@@ -334,8 +336,8 @@ nav .logo.space{
 .product_price{
   font-size: 20px;
   color: #ff8415;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .input_field{
@@ -344,4 +346,22 @@ nav .logo.space{
 }
 .cart_add{
   margin-top: 20px;
+}
+
+.discount{
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: #fec107;
+  font-size: 21px;
+}
+
+.container{
+  background: #ffffff;
+  width: fit-content;
+  margin: 10px;
+  padding-bottom: 20px;
+  padding-left: 50px;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 3px 5px 6px #ccc;
 }
