@@ -39,8 +39,8 @@
 						The Bazaar
 					</span>
 
-					<div class="wrap-input100 validate-input m-b-10" data-validate = "Username is required">
-						<input class="input100" type="text" name="email" placeholder="Username">
+					<div class="wrap-input100 validate-input m-b-10" data-validate = "Email is required">
+						<input class="input100" type="text" name="email" placeholder="Email" {% if email %} value="{{ email }}" {% endif %}>
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-user"></i>
@@ -55,6 +55,13 @@
 						</span>
 					</div>
 
+                    {% if wrong_email_pass %}
+                        <p class="wrong-em-pass">{{ wrong_email_pass }}</p>
+                    {% endif %}
+                    {% if wrong_pass %}
+                        <p class="wrong-pass">{{ wrong_pass }}</p>
+                    {% endif %}
+
 					<div class="container-login100-form-btn p-t-10">
 						<button type="submit" id="login100-form-btn" class="login100-form-btn">
 							Login
@@ -66,6 +73,8 @@
 							Create New Account
 						</a>
 					</div>
+
+
 
 				</form>
 			</div>

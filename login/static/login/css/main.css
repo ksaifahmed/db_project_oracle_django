@@ -132,7 +132,7 @@ iframe {
 .txt1 {
   font-family: Montserrat-Regular;
   font-size: 16px;
-  color: #ff5405;
+  color: #005bea;
   line-height: 1.4;
   padding-bottom: 50px;
 }
@@ -541,5 +541,11 @@ iframe {
 
 
 .txt1:hover{
-  color: #005bea;
+  color: #ffc923;
+}
+
+.wrong-em-pass, .wrong-pass{
+  color: red;
+  margin: auto;
+  padding: 5px;
 }

@@ -62,15 +62,15 @@ def load_login(request):
             if password_fetched == password:
                 set_session(request, email)  # sets cookies for logged in users
                 return redirect(homeview.load_home)  # then to home page
-            return render(request, 'login.html', {'message': "Wrong Password!"})
+            return render(request, 'login.html', {'wrong_pass': "Wrong Password!", 'email': email})
 
-        return render(request, 'login.html', {'message': "No such user exists"})
+        return render(request, 'login.html', {'wrong_email_pass': "No such user exists!"})
 
     else:
         return render(request, 'login.html')
 
 
-# TODO : If you want user to logout, go to brower's "See all site cookies" > delete the session of "127.0.0.1"
+# TODO : If you want user to logout, go to browser's "See all site cookies" > delete the session of "127.0.0.1"
 # TODO : most of our sql in login/register returns one, value...try korsi loop baad dite
 # TODO : sth like -->  phone = [row[0] for row in phone_number]
 # TODO: but this returns a list, so make it string...see lines 57, 58
