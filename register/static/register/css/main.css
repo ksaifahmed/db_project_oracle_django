@@ -550,3 +550,19 @@ iframe {
 .input100{
   color: #999999;
 }
+
+.email_same{
+  color: red;
+  padding-bottom: 5px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

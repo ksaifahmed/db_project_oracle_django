@@ -40,6 +40,10 @@ phone2.onkeyup = validatePhone;
 phone3.onkeyup = validatePhone;
 
 
+var err = document.getElementById("email_same");
+err.scrollIntoView({behavior: "smooth", block: "center"});
+
+
 
 
 

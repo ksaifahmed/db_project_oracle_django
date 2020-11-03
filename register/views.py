@@ -15,7 +15,11 @@ def response_phone(request):
     return JsonResponse(data)
 
 
+eligible = True
+
+
 def load_data(request):
+    global eligible
 
     if request.method == 'POST':
         cursor = connection.cursor()
@@ -34,7 +38,11 @@ def load_data(request):
         phone_number2 = request.POST['phone_number2']
         phone_number3 = request.POST['phone_number3']
 
-        eligible = True
+        formdata = {'first_name': first_name, 'last_name': last_name, 'age': age,
+                    'bank': bank, 'gender': gender, 'email': email, 'password': password,
+                    'house': house, 'street': street, 'postal_code': postal_code,
+                    'city': city, 'phone_number': phone_number,
+                    'phone_number2': phone_number2, 'phone_number3': phone_number3}
 
         # check email separately:
         # used specific sql which retrieves one email only
@@ -47,7 +55,8 @@ def load_data(request):
             email_fetched = str(email_fetched[0])
         if email_fetched == email:
             eligible = False
-            return HttpResponse('Email already in use')
+            return render(request, 'register.html',
+                          {'data': formdata, 'email_msg': 'Email Already in Use by Another Account'})
 
         # check phone1 separately:
         # used specific sql which retrieves one phone only
@@ -60,7 +69,8 @@ def load_data(request):
             number_fetched = str(number_fetched[0])
         if number_fetched == phone_number:
             eligible = False
-            return HttpResponse('Phone Number 1 Already in use')
+            return render(request, 'register.html',
+                          {'data': formdata, 'phone1_msg': 'Phone 1 Already in Use by Another Account'})
 
         # same as above phone number1:
         if phone_number2 != "":
@@ -73,7 +83,8 @@ def load_data(request):
                 number_fetched = str(number_fetched[0])
             if number_fetched == phone_number2:
                 eligible = False
-                return HttpResponse('Phone Number 2 Already in use')
+                return render(request, 'register.html',
+                              {'data': formdata, 'phone2_msg': 'Phone 2 Already in Use by Another Account'})
 
         # same as above phone number1:
         if phone_number3 != "":
@@ -86,7 +97,8 @@ def load_data(request):
                 number_fetched = str(number_fetched[0])
             if number_fetched == phone_number3:
                 eligible = False
-                return HttpResponse('Phone Number 3 Already in use')
+                return render(request, 'register.html',
+                              {'data': formdata, 'phone3_msg': 'Phone 3 Already in Use by Another Account'})
 
         # INSERTING A NULL BANK A/C
         if bank == "":
@@ -104,8 +116,6 @@ def load_data(request):
         postal_code = str(postal_code)
         bank = str(bank)
 
-        # tui customer data insert korsish even when phone number exists, i fixed
-        # shob thik holey customer table e age insert erpor phone_table e insert
         if eligible:
             sql = "INSERT INTO CUSTOMER(CUSTOMER_ID,FIRST_NAME,LAST_NAME,AGE,BANK_ACCOUNT,GENDER,EMAIL,PASSWORD,HOUSE_NO,STREET,POSTAL_CODE,CITY) VALUES(" + cid + ", '" + first_name + "', '" + last_name + "', " + age + ", " + bank + ", '" + gender + "', '" + email + "', '" + password + "', '" + house + "', '" + street + "', " + postal_code + ", '" + city + "');"
             cursor.execute(sql)
@@ -121,8 +131,8 @@ def load_data(request):
                 sql = "INSERT INTO CUSTOMER_PHONE(PHONE_NUMBER,CUSTOMER_ID) VALUES(" + phone_number3 + ", " + cid + ");"
                 cursor.execute(sql)
 
-        return redirect(loginview.load_login)  # sends to login when registered
-        #return render(request, 'register.html')
+            return redirect(loginview.load_login)  # sends to login when registered
+        return render(request, 'register.html')
 
     else:
         return render(request, 'register.html')

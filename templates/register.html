@@ -38,7 +38,7 @@
             </span>
 
             <div class="wrap-input100 validate-input m-b-10" data-validate = "First Name is required">
-						<input class="input100" type="text" name="first_name" placeholder="First Name">
+						<input class="input100" type="text" name="first_name" placeholder="First Name" {% if data %} value="{{ data.first_name }}" {% endif %}>
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-user"></i>
@@ -47,7 +47,7 @@
 
 
             <div class="wrap-input100 validate-input m-b-10" data-validate = "Last Name is required">
-						<input class="input100" type="text" name="last_name" placeholder="Last Name">
+						<input class="input100" type="text" name="last_name" placeholder="Last Name" {% if data %} value="{{ data.last_name }}" {% endif %}>
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-user"></i>
@@ -56,7 +56,7 @@
 
 
             <div class="wrap-input100 validate-input m-b-10" data-validate = "Age is required">
-						<input class="input100" type="number" name="age" min="1" max="100" placeholder="Age">
+						<input class="input100" type="number" name="age" min="1" max="120" placeholder="Age"{% if data %} value="{{ data.age }}" {% endif %}>
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-child"></i>
@@ -65,7 +65,7 @@
 
 
             <div class="wrap-input100 m-b-10">
-						<input class="input100" min="1" type="number" name="bank" placeholder="Bank A/C Number (Optional)">
+						<input class="input100" min="1" type="number" name="bank" placeholder="Bank A/C Number (Optional)"{% if data %} value="{{ data.bank }}" {% endif %}>
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-bitcoin"></i>
@@ -90,17 +90,19 @@
 
 
             <div class="wrap-input100 validate-input m-b-10" data-validate = "Email is required">
-						<input class="input100" type="text" name="email" placeholder="Email">
+						<input class="input100" type="text" name="email" placeholder="Email" {% if data %} value="{{ data.email }}" {% endif %}>
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-envelope"></i>
 						</span>
 					</div>
 
-
+            {% if email_msg %}
+                <p id="email_same" class="email_same">{{ email_msg }}</p>
+            {% endif %}
 
             <div class="wrap-input100 validate-input m-b-10" data-validate = "Password is required">
-						<input id="password" class="input100" type="password" name="password" placeholder="Password">
+						<input id="password" class="input100" type="password" minlength="8" name="password" placeholder="Password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-user-secret"></i>
@@ -117,33 +119,43 @@
 					</div>
 
             <div class="wrap-input100 validate-input m-b-10" data-validate = "Phone No is required">
-						<input id="phone1" class="input100" type="number" name="phone_number" placeholder="Phone Number">
+						<input id="phone1" class="input100" type="number" name="phone_number" placeholder="Phone Number" {% if data %} value="{{ data.phone_number }}" {% endif %}>
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-mobile"></i>
 						</span>
 					</div>
 
+            {% if phone1_msg %}
+                <p id="email_same" class="email_same">{{ phone1_msg }}</p>
+            {% endif %}
 
             <div class="wrap-input100 m-b-10">
-						<input id="phone2" class="input100" type="number" name="phone_number2" placeholder="Phone No 2 (optional)">
+						<input id="phone2" class="input100" type="number" name="phone_number2" placeholder="Phone No 2 (optional)" {% if data %} value="{{ data.phone_number2 }}" {% endif %}>
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-mobile-phone"></i>
 						</span>
 					</div>
 
+            {% if phone2_msg %}
+                <p id="email_same" class="email_same">{{ phone2_msg }}</p>
+            {% endif %}
+
             <div class="wrap-input100 m-b-10">
-						<input id="phone3" class="input100" type="number" name="phone_number3" placeholder="Phone No 3 (optional)">
+						<input id="phone3" class="input100" type="number" name="phone_number3" placeholder="Phone No 3 (optional)" {% if data %} value="{{ data.phone_number3 }}" {% endif %}>
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-mobile-phone"></i>
 						</span>
 					</div>
 
+            {% if phone3_msg %}
+                <p id="email_same" class="email_same">{{ phone3_msg }}</p>
+            {% endif %}
 
             <div class="wrap-input100 validate-input m-b-10" data-validate = "House No is required">
-						<input class="input100" type="text" name="house" placeholder="House No">
+						<input class="input100" type="text" name="house" placeholder="House No" {% if data %} value="{{ data.house }}" {% endif %}>
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-home"></i>
@@ -151,7 +163,7 @@
 					</div>
 
             <div class="wrap-input100 validate-input m-b-10" data-validate = "Street is required">
-						<input class="input100" type="text" name="street" placeholder="Street">
+						<input class="input100" type="text" name="street" placeholder="Street" {% if data %} value="{{ data.street }}" {% endif %}>
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-road"></i>
@@ -159,7 +171,7 @@
 					</div>
 
             <div class="wrap-input100 validate-input m-b-10" data-validate = "Postal Code is required">
-						<input class="input100" type="number" name="postal_code" placeholder="Postal Code">
+						<input class="input100" type="number" name="postal_code" placeholder="Postal Code" {% if data %} value="{{ data.postal_code }}" {% endif %}>
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-address-book-o"></i>
@@ -167,7 +179,7 @@
 					</div>
 
             <div class="wrap-input100 validate-input m-b-10" data-validate = "City is required">
-						<input class="input100" type="text" name="city" placeholder="City">
+						<input class="input100" type="text" name="city" placeholder="City" {% if data %} value="{{ data.city }}" {% endif %}>
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-building"></i>
