@@ -1,3 +1,5 @@
+import hashlib
+
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.db import connection
@@ -42,6 +44,8 @@ def load_login(request):
         email = request.POST['email']
         password = request.POST['password']
 
+        # hashing the password
+        password = hashlib.md5(password.encode('utf-8')).hexdigest()
         sql = "SELECT EMAIL,PASSWORD FROM CUSTOMER WHERE EMAIL = '" + email + "';"
         cursor.execute(sql)
         email_pass = cursor.fetchall()

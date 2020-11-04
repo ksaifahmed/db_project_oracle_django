@@ -3,6 +3,7 @@ from django.db import connection
 from django.shortcuts import redirect
 from django.http import JsonResponse, HttpResponse
 import login.views as loginview
+import hashlib
 
 
 def response_email(request):
@@ -20,6 +21,7 @@ eligible = True
 
 def load_data(request):
     global eligible
+    eligible = True
 
     if request.method == 'POST':
         cursor = connection.cursor()
@@ -44,6 +46,9 @@ def load_data(request):
                     'city': city, 'phone_number': phone_number,
                     'phone_number2': phone_number2, 'phone_number3': phone_number3}
 
+        # hashing the password
+        password = hashlib.md5(password.encode('utf-8')).hexdigest()
+        
         # check email separately:
         # used specific sql which retrieves one email only
         sql = "SELECT EMAIL FROM CUSTOMER WHERE EMAIL = '" + email + "';"
