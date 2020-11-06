@@ -4,6 +4,21 @@ from django.shortcuts import redirect
 from django.http import JsonResponse, HttpResponse
 import login.views as loginview
 import hashlib
+import math
+
+
+def convert_number(number):
+    if number == "":
+        return number
+
+    if number[0] == '0':
+        num = int(number)
+        num += 8800000000000
+        num = str(num)
+        return num
+
+    else:
+        return number
 
 
 def response_email(request):
@@ -36,9 +51,15 @@ def load_data(request):
         street = request.POST['street']
         postal_code = request.POST['postal_code']
         city = request.POST['city']
+
         phone_number = request.POST['phone_number']
         phone_number2 = request.POST['phone_number2']
         phone_number3 = request.POST['phone_number3']
+
+        # Converting this numbers into appropriate form
+        phone_number = convert_number(phone_number)
+        phone_number2 = convert_number(phone_number2)
+        phone_number3 = convert_number(phone_number3)
 
         formdata = {'first_name': first_name, 'last_name': last_name, 'age': age,
                     'bank': bank, 'gender': gender, 'email': email, 'password': password,
@@ -48,7 +69,7 @@ def load_data(request):
 
         # hashing the password
         password = hashlib.md5(password.encode('utf-8')).hexdigest()
-        
+
         # check email separately:
         # used specific sql which retrieves one email only
         sql = "SELECT EMAIL FROM CUSTOMER WHERE EMAIL = '" + email + "';"
@@ -72,6 +93,7 @@ def load_data(request):
         if cursor.rowcount > 0:
             number_fetched = [x[0] for x in number1]
             number_fetched = str(number_fetched[0])
+
         if number_fetched == phone_number:
             eligible = False
             return render(request, 'register.html',
@@ -136,6 +158,7 @@ def load_data(request):
                 sql = "INSERT INTO CUSTOMER_PHONE(PHONE_NUMBER,CUSTOMER_ID) VALUES(" + phone_number3 + ", " + cid + ");"
                 cursor.execute(sql)
 
+            request.session['account_created'] = "Account Created Successfully"
             return redirect(loginview.load_login)  # sends to login when registered
         return render(request, 'register.html')
 

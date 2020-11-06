@@ -55,7 +55,7 @@ def load_home(request):
 
     cursor.execute(sql)
     product_list = cursor.fetchall()
-    cursor.close()
+    # cursor.close()
 
     product_dict = []
     for r in product_list:
@@ -68,6 +68,13 @@ def load_home(request):
         row = {'name': name, 'brand': brand, 'price': price, 'image_link': image_link, 'id': pid, 'discount': discount}
         product_dict.append(row)
 
+    customer_id = request.session.get('customer_id')
+    customer_id = str(customer_id)
+    sql = "SELECT EMAIL FROM CUSTOMER WHERE CUSTOMER_ID = " + customer_id
+    cursor.execute(sql)
+    name_table = cursor.fetchall()
+    username = [data[0] for data in name_table]
+    username = str(username[0])
 
 
     # Dividing product_dict returned into 9 items per page of website
@@ -78,5 +85,5 @@ def load_home(request):
 
     # return render(request,'list_jobs.html',{'jobs' : Job.objects.all()})
     return render(request, 'home.html', {
-        'categories': category_dict, 'products': product_dict,
+        'categories': category_dict, 'products': product_dict, 'username': username
     })

@@ -39,6 +39,12 @@ def load_login(request):
     if 'customer_id' in request.session:
         return redirect(homeview.load_home)  # sends to home view
 
+    new_account = []
+    if 'account_created' in request.session:
+        msg = request.session.get('account_created')
+        new_account = {'new_account': msg}
+        del request.session['account_created']
+
     if request.method == 'POST':
         cursor = connection.cursor()
         email = request.POST['email']
@@ -54,7 +60,7 @@ def load_login(request):
         password_fetched = ""
 
         # for one value, skip for loop
-        if cursor.rowcount > 0: # ei line lekhtei hobe, or else error if no result in database
+        if cursor.rowcount > 0:  # ei line lekhtei hobe, or else error if no result in database
             # list value return kore like --> ['ridy@gmail']
             email_fetched = ([data[0] for data in email_pass])
             email_fetched = str(email_fetched[0])  # now it's just "ridy@gmail"
@@ -71,7 +77,7 @@ def load_login(request):
         return render(request, 'login.html', {'wrong_email_pass': "No such user exists!"})
 
     else:
-        return render(request, 'login.html')
+        return render(request, 'login.html', {'new_account': new_account})
 
 
 # TODO : If you want user to logout, go to browser's "See all site cookies" > delete the session of "127.0.0.1"
