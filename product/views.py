@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db import connection
 from login.views import load_login
+import home.views as homeviews
 
 
 def load_product(request, slug):
@@ -8,6 +9,11 @@ def load_product(request, slug):
     # send to login if no session exists:
     if not('customer_id' in request.session):
         return redirect(load_login)
+
+    if request.method == 'POST' and 'search-btn' in request.POST:
+        keywords = request.POST['search']
+        keywords = str(keywords)
+        return homeviews.load_search_result(request, keywords)
 
     cursor = connection.cursor()
     sql = """SELECT p.PRODUCT_ID, p.NAME, p.CATEGORY, p.BRAND, p.PRICE, p.DESCRIPTION, o.DESCRIPTION AS DISCOUNT, p.IMAGE_LINK, s.quantity

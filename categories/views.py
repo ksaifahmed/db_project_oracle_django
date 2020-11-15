@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.db import connection
 from django.core.paginator import Paginator
 from login.views import load_login
+import home.views as homeviews
 
 
 # Create your views here.
@@ -10,6 +11,11 @@ def load_category(request, slug):
     # send to login if no session exists:
     if not('customer_id' in request.session):
         return redirect(load_login)
+
+    if request.method == 'POST':
+        keywords = request.POST['search']
+        keywords = str(keywords)
+        return homeviews.load_search_result(request, keywords)
 
     categ = slug
     current_category = {'category': categ + ""}
