@@ -27,9 +27,9 @@
 				</div>
 			</div>
 		</li>
-        <li><a href="#Contact">Contact</a></li>
-        <li><a href="#About">About</a></li>
-		<li><a href="#Profile">Profile</a></li>
+        <li><a href="#Contact">My Account</a></li>
+              <li><a href="/cart">Cart</a></li>
+        <li><a href="/logout">Logout ({{ username }})</a></li>
       </div>
       <div class="search-icon"><span class="fas fa-search"></span></div>
       <div class="cancel-icon"><span class="fas fa-times"></span></div>
@@ -60,10 +60,13 @@
                     {% if product.brand %}
                         <p class="brand">Brand: {{ product.brand }}</p>
                     {% endif %}
-                    <p class="quantity_left">{{ product.quantity_left }} left in stock</p>
+                    {% if stock_info %}
+                        <p class="quantity_left">{{ product.quantity_left }} left in stock</p>
+                    {% endif %}
 
                 </div>
 
+             {% if stock_info %}
                 <div class="product_price">
                     Tk {{ product.price }}
                 </div>
@@ -72,18 +75,29 @@
                     <p class="discount">{{ product.discount }}</p>
                 {% endif %}
 
-                <div class="form">
-                    <form action="" method="post" class="quantity_form">
-                        {% csrf_token %}
-                        <label for="quantity">Quantity: </label>
-                        <input type="number" class="input_field" id="quantity" name="quantity" min="1" max="{{ product.quantity_left }}">
-                        <input type="submit" name="quantity-btn" class="cart_add" value="Add to Cart" style="display: block">
-                    </form>
-                </div>
-                {% if quantity_selected.quantity %}
-                    <p>Quantity: {{ quantity_selected.quantity }}</p>
-                {% endif %}
 
+                {% if quantity_selected.quantity %}
+                    <div class="quantity-selected">Quantity selected: {{ quantity_selected.quantity }}</div>
+                    <span class="new-btns">
+                        <a href="/" class="shop-more">Shop More</a>
+                        <a href="/cart" class="check-out-btn">Check Out</a>
+                    </span>
+
+                {% else %}
+
+                    <div class="form">
+                        <form action="" method="post" class="quantity_form">
+                            {% csrf_token %}
+                            <label for="quantity">Quantity: </label>
+                            <input type="number" class="input_field" id="quantity" name="quantity" required min="1" max="{{ product.quantity_left }}">
+                            <input type="submit" name="quantity-btn" class="cart_add" value="Add to Cart" style="display: block; padding: 5px; border-radius: 4px; background: #ff5405; color: white; font-size: 15px;">
+                        </form>
+                    </div>
+
+                {% endif %}
+            {% else %}
+                <div class="out-of-stock" style="margin-top: 60px; font-size: 20px; color: #e63600;">OUT OF STOCK!</div>
+            {% endif %}
             </div>
 
 
@@ -91,6 +105,12 @@
     </div>
 
     <script type="text/javascript" src="{% static 'home/script.js' %}"></script>
+
+    <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
 
   </body>
 </html>

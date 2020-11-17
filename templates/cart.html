@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>The Bazaar</title>
+    <link rel="stylesheet" href="{% static 'cart/style.css' %}" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+  </head>
+  <body>
+    <nav>
+      <div class="menu-icon"><span class="fas fa-bars"></span></div>
+      <div class="logo">
+        <img src="{% static 'product/bazaarlogo.png' %}" alt="Logo" width="100px" height="70px">
+      </div>
+      <div class="nav-items">
+        <li><a href="/">Home</a></li>
+        <li>
+			<div class="dropdown">
+				<button class="dropbtn">Categories</button>
+				<div class="dropdown-content">
+                    {% for c in categories %}
+					<a href="/categories/{{ c.category }}/">{{ c.category }}</a>
+                    {% endfor %}
+				</div>
+			</div>
+		</li>
+        <li><a href="#Contact">My Account</a></li>
+        <li><a href="/cart">Cart</a></li>
+        <li><a href="/logout">Logout ({{ username }})</a></li>
+      </div>
+      <div class="search-icon"><span class="fas fa-search"></span></div>
+      <div class="cancel-icon"><span class="fas fa-times"></span></div>
+      <form action="" method="post">
+          {% csrf_token %}
+        <input type="text" name="search" class="search-data" placeholder="Search Product" required>
+        <button type="submit" name="search-btn" class="fas fa-search"></button>
+      </form>
+    </nav>
+
+    <div class="my-cart-header">My Cart: </div>
+    <div class="cart_list">
+        {% for p in cart %}
+            <div class="item">
+                <div class="prod-name">{{ p.name }}</div>
+                <div class="price">Price: Tk {{ p.price }}</div>
+                <div class="quantity">Quantity{{ p.quantity }}</div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+      <script type="text/javascript" src="{% static 'cart/script.js' %}"></script>
+</body>
+</html>

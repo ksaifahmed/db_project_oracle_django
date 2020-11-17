@@ -64,7 +64,6 @@ def load_category(request, slug):
             AND CATEGORY = '""" + categ + """';"""
     cursor.execute(sql)
     product_list = cursor.fetchall()
-    cursor.close()
 
     product_dict = []
     for r in product_list:
@@ -83,7 +82,17 @@ def load_category(request, slug):
     page = request.GET.get('page')
     product_dict = paginate.get_page(page)
 
+    customer_id = request.session.get('customer_id')
+    customer_id = str(customer_id)
+    sql = "SELECT EMAIL FROM CUSTOMER WHERE CUSTOMER_ID = " + customer_id
+    cursor.execute(sql)
+    name_table = cursor.fetchall()
+    username = [data[0] for data in name_table]
+    username = str(username[0])
+
+    cursor.close()
     # return render(request,'list_jobs.html',{'jobs' : Job.objects.all()})
     return render(request, 'category.html', {
-        'categories': category_dict, 'products': product_dict, 'current_category': current_category
+        'username': username, 'categories': category_dict, 'products': product_dict,
+        'current_category': current_category
     })

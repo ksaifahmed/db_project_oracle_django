@@ -20,6 +20,7 @@ import categories.views as categ_view
 import product.views as prod_views
 import register.views as reg_views
 import login.views as login_views
+import cart.views as cart_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,5 +29,6 @@ urlpatterns = [
     path('product/<slug:slug>/', prod_views.load_product),
     path('register/', reg_views.load_data, name='register'),
     path('login/', login_views.load_login, name='login'),
-    path('logout/', login_views.del_session)
+    path('logout/', login_views.del_session),
+    path('cart/', cart_view.load_cart)
 ]

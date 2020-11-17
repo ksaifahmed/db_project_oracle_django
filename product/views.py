@@ -4,6 +4,19 @@ from login.views import load_login
 import home.views as homeviews
 
 
+def init_cart(pid, quan):
+    item1 = {'product_id': pid, 'quantity': quan}
+    cart = []
+    cart.append(item1)
+    return cart
+
+
+def add_to_cart(pid, quan, cart):
+    item = {'product_id': pid, 'quantity': quan}
+    cart.append(item)
+    return cart
+
+
 def load_product(request, slug):
 
     # send to login if no session exists:
@@ -63,15 +76,41 @@ def load_product(request, slug):
         row = {'category': category}
         cat_dict.append(row)
 
-    #cursor.close()
+    customer_id = request.session.get('customer_id')
+    customer_id = str(customer_id)
+    sql = "SELECT EMAIL FROM CUSTOMER WHERE CUSTOMER_ID = " + customer_id
+    cursor.execute(sql)
+    name_table = cursor.fetchall()
+    username = [data[0] for data in name_table]
+    username = str(username[0])
 
-    q_dict = []
+    stock_info = ""
+    pid = product_dict['id']
+    in_stock = cursor.callfunc('IS_IN_STOCK', str, [pid, 1])
+    in_stock = str(in_stock)
+    if in_stock != "NO":
+        stock_info = "available"
 
-    if request.method == 'POST':
+    # adding to cart
+    if request.method == 'POST' and 'quantity-btn' in request.POST:
         data = request.POST['quantity']
         quantity = {'quantity': data}
         q_dict = quantity
+        pid = product_dict['id']
+        in_stock = cursor.callfunc('IS_IN_STOCK', str, [pid, 1])
+        in_stock = str(in_stock)
+
+        if in_stock != "NO":
+            stock_info = "available"
+
+        if not ('cart' in request.session):
+            request.session['cart'] = init_cart(pid, data)
+        else:
+            cart = request.session['cart']
+            cart = add_to_cart(pid, data, cart)
+            request.session['cart'] = cart
+
+        return render(request, 'productpage.html', {'stock_info': stock_info, 'username': username, 'product': product_dict, 'categories': cat_dict, 'quantity_selected': q_dict})
 
     cursor.close()
-
-    return render(request, 'productpage.html', {'product': product_dict, 'categories': cat_dict, 'quantity_selected': q_dict})
+    return render(request, 'productpage.html', {'stock_info': stock_info, 'username': username, 'product': product_dict, 'categories': cat_dict})

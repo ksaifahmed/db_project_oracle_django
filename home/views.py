@@ -159,7 +159,8 @@ def load_search_result(request, keywords):
             )
 
             AND p.OFFER_ID = o.OFFER_ID(+)
-            AND ( """ + search_sql_generator(keywords) + " );"
+            AND ( """ + search_sql_generator(keywords) + """ )
+            ORDER BY PRICE;"""
 
     cursor.execute(sql)
     product_list = cursor.fetchall()
