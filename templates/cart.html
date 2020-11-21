@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <title>The Bazaar</title>
     <link rel="stylesheet" href="{% static 'cart/style.css' %}" type="text/css">
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        	<link rel="stylesheet" type="text/css" href="{% static 'register/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
@@ -40,16 +42,23 @@
       </form>
     </nav>
 
+    {% if cart %}
     <div class="my-cart-header">My Cart: </div>
     <div class="cart_list">
         {% for p in cart %}
             <div class="item">
                 <div class="prod-name">{{ p.name }}</div>
                 <div class="price">Price: Tk {{ p.price }}</div>
-                <div class="quantity">Quantity{{ p.quantity }}</div>
+                <div class="quantity">Quantity: {{ p.quantity }}</div>
+            </div>
+            <div class="close-link">
+                <a class="fas fa-close" href="/cart-removal/{{ p.product_id }}" style="color: #e63600; text-decoration: none; width: 40px; height: 40px; font-size: 24px;"></a>
             </div>
         {% endfor %}
     </div>
+    {% else %}
+        <div class="cart-empty" style="margin: auto; text-align: center; padding-top: 130px; font-size: 28px; color: #e63600;">You have no items in Cart</div>
+    {% endif %}
 
 
       <script type="text/javascript" src="{% static 'cart/script.js' %}"></script>

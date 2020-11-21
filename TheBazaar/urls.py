@@ -30,5 +30,6 @@ urlpatterns = [
     path('register/', reg_views.load_data, name='register'),
     path('login/', login_views.load_login, name='login'),
     path('logout/', login_views.del_session),
-    path('cart/', cart_view.load_cart)
+    path('cart/', cart_view.load_cart),
+    path('cart-removal/<slug:slug>/', cart_view.del_cart_item)
 ]

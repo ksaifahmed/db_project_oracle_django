@@ -22,7 +22,7 @@ def get_cart_list(cart_list):
         name = str(name[0])
         price = str(price[0])
 
-        detailed_list.append({'name': name, 'price': price, 'quantity': quantity})
+        detailed_list.append({'name': name, 'price': price, 'quantity': quantity, 'product_id': pid})
 
     cursor.close()
     return detailed_list
@@ -76,5 +76,15 @@ def load_cart(request):
         return render(request, "cart.html", {'username': username, 'categories': cat_dict, 'cart': cart_list})
 
 
-
+def del_cart_item(request, slug):
+    if 'cart' in request.session:
+        cart_list = request.session['cart']
+        new_list = []
+        for cart in cart_list:
+            if str(cart['product_id']) == str(slug):
+                continue
+            new_list.append(cart)
+        del request.session['cart']
+        request.session['cart'] = new_list
+    return redirect(load_cart)
 
