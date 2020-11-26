@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from login.views import load_login
 from django.db import connection
+from datetime import datetime
+import home.views as homeviews
 
 
 def get_cart_list(cart_list):
@@ -44,6 +46,17 @@ def load_cart(request):
     # send to login if no session exists:
     if not('customer_id' in request.session):
         return redirect(load_login)
+
+    # buy btn pressed:
+    if request.method == 'POST' and 'buy-btn' in request.POST:
+        payment = str(request.POST['payment'])
+        check_out(payment, request)
+
+    # search btn pressed
+    if request.method == 'POST' and 'search-btn' in request.POST:
+        keywords = request.POST['search']
+        keywords = str(keywords)
+        return homeviews.load_search_result(request, keywords)
 
     cursor = connection.cursor()
     customer_id = request.session.get('customer_id')
@@ -105,3 +118,31 @@ def del_cart_item(request, slug):
         request.session['cart'] = new_list
     return redirect(load_cart)
 
+
+def check_out(payment, request):
+    if 'cart' in request.session:
+        cursor = connection.cursor()
+        cart_list = request.session['cart']
+
+        c_id = str(request.session['customer_id'])
+        employee_id = cursor.callfunc('GET_DELIVERY_MAN', str)
+        purchase_date = str(datetime.now().replace(microsecond=0))
+        transaction_id = int(cursor.callfunc('GET_TRANSACTION_ID', str))
+        transaction_id += 1
+
+        # TO_DATE('2020-11-28 18:13:09', 'YYYY-MM-DD HH24:MI:SS')
+
+        for item in cart_list:
+            pid = str(item['product_id'])
+            quan = str(item['quantity'])
+
+            sql = """INSERT INTO TRANSACTION (TRANSACTION_ID, CUSTOMER_ID, 
+            PRODUCT_ID, QUANTITY, PAYMENT_METHOD, PURCHASE_DATE, EMPLOYEE_ID)
+            VALUES (""" + str(transaction_id) + "," + c_id + "," + pid + "," + quan + ",'" + payment + "'," + """
+            TO_DATE('""" + purchase_date + "', 'YYYY-MM-DD HH24:MI:SS')" + "," + employee_id + ");"
+
+            transaction_id += 1
+            cursor.execute(sql)
+
+        del request.session['cart']
+        return redirect(load_cart)
