@@ -72,6 +72,7 @@
                 </div>
 
                 {% if product.discount %}
+                    <p class="discount-desc" style="color: #fec107;">{{ product.discount_desc }}</p>
                     <p class="discount">{{ product.discount }}</p>
                 {% endif %}
 

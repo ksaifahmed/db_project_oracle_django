@@ -46,21 +46,63 @@
     <div class="my-cart-header">My Cart: </div>
     <div class="cart_list">
         {% for p in cart %}
-            <div class="item">
-                <div class="prod-name">{{ p.name }}</div>
-                <div class="price">Price: Tk {{ p.price }}</div>
-                <div class="quantity">Quantity: {{ p.quantity }}</div>
-            </div>
-            <div class="close-link">
-                <a class="fas fa-close" href="/cart-removal/{{ p.product_id }}" style="color: #e63600; text-decoration: none; width: 40px; height: 40px; font-size: 24px;"></a>
+            <div class="card">
+
+                <div class="item">
+                    <div class="prod-name">{{ p.name }}</div>
+                    <div class="price">Price: Tk {{ p.price }}</div>
+                    <div class="quantity">Quantity: {{ p.quantity }}</div>
+                </div>
+
+                <div class="close-link" style="width: fit-content;">
+                    <a id="cross-btn" class="fas fa-close" href="/cart-removal/{{ p.product_id }}" style="color: rgba(51,40,25,0.29); text-decoration: none; width: 40px; height: 40px; font-size: 24px;"></a>
+                </div>
+
             </div>
         {% endfor %}
     </div>
+     <div class="bottom">
+     <div class="card-checkout">
+
+         <div class="check-out-div">
+            <i class="fas fa-check-square" style="color:#ff8415; display: inline;"></i>
+             <p style="display: inline;" class="total-items">Items: {{ total_items }}</p>
+             <br>
+             <i class="fas fa-dollar" style="color: #ff8415; display: inline;"></i>
+            <p class="total-price" style="display: inline;">Total Price: Tk {{ total_price }}</p>
+        </div>
+
+        <div class="money-icon">
+            <i class="fas fa-shopping-cart" style="width: 40px; height: 40px; font-size: 24px;"></i>
+        </div>
+
+       <form action="" method="post" style="padding-top: 15px;">
+          {% csrf_token %}
+
+            <label for="payment-meth">Choose payment method:</label>
+
+                <select id="payment-meth" name="payment" class="payment-meth" style="display:block; border: none; border-radius: 3px; padding: 5px;" required>
+                    <option value=""></option>
+                    <option value="COD">Cash on Delivery</option>
+                    <option value="Bank">Bank A/C</option>
+                </select>
+                <button style="background: #ff9917; display: block; margin-top: 15px; padding: 4px 7px 4px 7px; border: none; color: white; border-radius: 5px;" type="submit" id="buy-btn" name="buy-btn" class="buy-btn">Check Out</button>
+       </form>
+
+    </div>
+
+     </div>
+
     {% else %}
         <div class="cart-empty" style="margin: auto; text-align: center; padding-top: 130px; font-size: 28px; color: #e63600;">You have no items in Cart</div>
     {% endif %}
 
 
       <script type="text/javascript" src="{% static 'cart/script.js' %}"></script>
+      <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
 </body>
 </html>

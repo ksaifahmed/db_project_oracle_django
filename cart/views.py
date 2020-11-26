@@ -6,6 +6,8 @@ from django.db import connection
 def get_cart_list(cart_list):
     cursor = connection.cursor()
     detailed_list = []
+    total = 0
+    items = 0
 
     for cart in cart_list:
         pid = cart['product_id']
@@ -21,11 +23,20 @@ def get_cart_list(cart_list):
         price = [data[1] for data in data_table]
         name = str(name[0])
         price = str(price[0])
+        price_text = price
 
-        detailed_list.append({'name': name, 'price': price, 'quantity': quantity, 'product_id': pid})
+        disc = cursor.callfunc('HAS_DISCOUNT', str, [pid])
+        if disc != "NO":
+            perc = int(disc)
+            price = int(price)*((100-perc)/100)
+            price_text = str(price) + " (after -" + str(perc) + "%)"
+
+        total += int(price) * int(quantity)
+        items += int(quantity)
+        detailed_list.append({'name': name, 'price': price_text, 'quantity': quantity, 'product_id': pid})
 
     cursor.close()
-    return detailed_list
+    return detailed_list, total, items
 
 
 def load_cart(request):
@@ -68,12 +79,18 @@ def load_cart(request):
 
     cursor.close()
     cart_list = []
+
+    # total price of items in cart
+    total = 0
+    items = 0
     if 'cart' in request.session:
         cart_list = request.session['cart']
-        cart_list = get_cart_list(cart_list)
-        return render(request, "cart.html", {'username': username, 'categories': cat_dict, 'cart': cart_list})
+        cart_list, total, items = get_cart_list(cart_list)
+        return render(request, "cart.html", {'username': username, 'categories': cat_dict,
+                                             'cart': cart_list, 'total_price': total, 'total_items': items})
     else:
-        return render(request, "cart.html", {'username': username, 'categories': cat_dict, 'cart': cart_list})
+        return render(request, "cart.html", {'username': username, 'categories': cat_dict,
+                                             'cart': cart_list, 'total_price': total, 'total_items': items})
 
 
 def del_cart_item(request, slug):

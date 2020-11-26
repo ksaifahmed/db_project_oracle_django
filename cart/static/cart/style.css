@@ -268,9 +268,29 @@ nav .logo.space{
   margin-left: 100px ;
 }
 .item{
+    display: inline-block;
+    width: 90%;
+}
+
+
+
+.close-link{
+    display: inline-block;
+    position: absolute;
+    text-align: center;
+    color: #fec107;
+    padding-top: 15px;
+
+}
+
+.fa-close:hover {
+    color: orangered !important;
+}
+
+.card{
   margin-top: 5px;
   padding-top: 10px;
-  width: 80%;
+  width: 60%;
   margin-left: 20px;
   padding-left: 50px;
   padding-bottom: 10px;
@@ -282,4 +302,38 @@ nav .logo.space{
   margin-top: 20px;
   color: #d3810e;
   font-size: 28px;
+}
+
+
+.card-checkout{
+    background: #ffdb13;
+    margin-top: 5px;
+  padding-top: 10px;
+  width: 60%;
+  margin-left: 20px;
+  padding-left: 50px;
+  padding-bottom: 10px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.check-out-div{
+    width: 90%;
+    display: inline-block;
+}
+
+.money-icon{
+    display: inline-block;
+    position: absolute;
+    text-align: center;
+    color: #e3841b;
+    padding-top: 5px;
+}
+
+.bottom{
+     margin-left: 100px ;
+}
+
+
+#buy-btn :hover{
+    background: #95ff13;
 }

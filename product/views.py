@@ -29,7 +29,7 @@ def load_product(request, slug):
         return homeviews.load_search_result(request, keywords)
 
     cursor = connection.cursor()
-    sql = """SELECT p.PRODUCT_ID, p.NAME, p.CATEGORY, p.BRAND, p.PRICE, p.DESCRIPTION, o.DESCRIPTION AS DISCOUNT, p.IMAGE_LINK, s.quantity
+    sql = """SELECT p.PRODUCT_ID, p.NAME, p.CATEGORY, p.BRAND, p.PRICE, p.DESCRIPTION, o.DESCRIPTION AS DISCOUNT, p.IMAGE_LINK, s.quantity, o.DISCOUNT_TYPE
             FROM THE_BAZAAR.PRODUCT p, THE_BAZAAR.OFFER o, THE_BAZAAR.STOCK s
             WHERE p.OFFER_ID = o.OFFER_ID(+)
             AND p.PRODUCT_ID = s.PRODUCT_ID
@@ -47,9 +47,11 @@ def load_product(request, slug):
         discount = r[6]
         image_link = r[7]
         quantity_left = r[8]
+        discount_desc = r[9]
         row = {
             'id': id, 'name': name, 'category': category, 'brand': brand, 'price': price,
-            'description': description, 'discount': discount, 'image_link': image_link, 'quantity_left': quantity_left
+            'description': description, 'discount': discount, 'image_link': image_link,
+            'quantity_left': quantity_left, 'discount_desc': discount_desc
             }
         product_dict = row
 
@@ -97,6 +99,8 @@ def load_product(request, slug):
         quantity = {'quantity': data}
         q_dict = quantity
         pid = product_dict['id']
+
+        # IS_IN_STOCK pl-sql function checks whether at least 1 with valid exp_date is in stock
         in_stock = cursor.callfunc('IS_IN_STOCK', str, [pid, 1])
         in_stock = str(in_stock)
 
