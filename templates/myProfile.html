@@ -86,7 +86,10 @@
             <input type="password" placeholder="Enter Current Password" name="old_password" >
 
             <label for="password"><b>New Password</b></label>
-            <input type="password" placeholder="Enter New Password" name="password" >
+            <input id="password" type="password" placeholder="Enter New Password" name="password" minlength="8">
+
+            <label for="con_password"><b>Confirm New Password</b></label>
+            <input id="con_password" type="password" placeholder="Confirm New Password" name="con_password" minlength="8">
 
             <label for="bank"><b>Bank Account</b></label>
             <input type="number" placeholder="Enter Bank Account No" name="bank" >
@@ -98,7 +101,7 @@
             <input type="text" placeholder="Enter Street No" name="street" >
 
             <label for="postal_code"><b>Postal Code</b></label>
-            <input type="number" placeholder="Enter Postal Code" name="postal_code" >
+            <input type="number" placeholder="Enter Postal Code" name="postal_code" max="9999" min="1000">
 
             <label for="city"><b>City</b></label>
             <input type="text" placeholder="Enter City" name="city" >
@@ -129,6 +132,14 @@
 
 
 </div>
+
+    <div class="error-msg-div">
+        {% if err %}
+            <p>{{ err }}!</p>
+        {% endif %}
+    </div>
+
+
 </div>
 
 

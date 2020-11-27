@@ -10,6 +10,7 @@ def get_cart_list(cart_list):
     detailed_list = []
     total = 0
     items = 0
+    can_check_out = True
 
     for cart in cart_list:
         pid = cart['product_id']
@@ -27,6 +28,15 @@ def get_cart_list(cart_list):
         price = str(price[0])
         price_text = price
 
+        stock = cursor.callfunc('IS_IN_STOCK', str, [pid, quantity])
+
+        if stock != "NO":
+            stock = "available"
+        else:
+            stock = ""
+            if can_check_out:
+                can_check_out = False
+
         disc = cursor.callfunc('HAS_DISCOUNT', str, [pid])
         if disc != "NO":
             perc = int(disc)
@@ -35,10 +45,11 @@ def get_cart_list(cart_list):
 
         total += int(price) * int(quantity)
         items += int(quantity)
-        detailed_list.append({'name': name, 'price': price_text, 'quantity': quantity, 'product_id': pid})
+        detailed_list.append({'name': name, 'price': price_text,
+                              'quantity': quantity, 'product_id': pid, 'stock': stock})
 
     cursor.close()
-    return detailed_list, total, items
+    return detailed_list, total, items, can_check_out
 
 
 def load_cart(request):
@@ -98,8 +109,12 @@ def load_cart(request):
     items = 0
     if 'cart' in request.session:
         cart_list = request.session['cart']
-        cart_list, total, items = get_cart_list(cart_list)
-        return render(request, "cart.html", {'username': username, 'categories': cat_dict,
+        cart_list, total, items, can_check_out = get_cart_list(cart_list)
+        if can_check_out:
+            can_check_out = "yes"
+        else:
+            can_check_out = ""
+        return render(request, "cart.html", {'username': username, 'categories': cat_dict, 'can_buy': can_check_out,
                                              'cart': cart_list, 'total_price': total, 'total_items': items})
     else:
         return render(request, "cart.html", {'username': username, 'categories': cat_dict,

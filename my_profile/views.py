@@ -12,6 +12,7 @@ dictionary = []
 phone_dict = []
 category_dict = []
 username = ""
+msg = ""
 
 
 def convert_number(number):
@@ -36,6 +37,7 @@ def keep_running_profile(request):
     global phone1
     global phone2
     global phone3
+    global msg
 
     dictionary = []
     phone_dict = []
@@ -135,7 +137,9 @@ def load_profile(request):
     global phone1
     global phone2
     global phone3
+    global msg
 
+    msg = ""
     keep_running_profile(request)
 
     # search btn pressed
@@ -198,8 +202,11 @@ def load_profile(request):
                 if cursor.rowcount > 0:
                     email_fetched = [x[0] for x in emails_]
                     email_fetched = str(email_fetched[0])
+                # email already in use given!
                 if email_fetched == email:
-                    return render(request, 'myProfile.html')  # email already in use given!
+                    msg = "Email Already in Use"
+                    return render(request, 'myProfile.html', {'dictionary': dictionary, 'username': username, 'err': msg,
+                                                              'phone_number': phone_dict, 'categories': category_dict})
                 else:
                     cursor = connection.cursor()
                     sql = "UPDATE CUSTOMER SET EMAIL = '" + email + "' WHERE CUSTOMER_ID = '" + id + "';"
@@ -227,10 +234,19 @@ def load_profile(request):
                             sql = "UPDATE CUSTOMER SET PASSWORD = '" + password + "' WHERE CUSTOMER_ID = '" + id + "';"
                             cursor.execute(sql)
                             cursor.close()
-                    else:
-                        return render(request, 'myProfile.html')
+                        else:
+                            # new password empty
+                            msg = "New Password Not Given!"
+                            return render(request, 'myProfile.html', {'dictionary': dictionary,
+                                                                      'username': username, 'err': msg,
+                                                                      'phone_number': phone_dict,
+                                                                      'categories': category_dict})
                 else:
-                    return render(request, 'myProfile.html')  # old password na mille
+                    # old password does not match
+                    msg = "Current Password Incorrect"
+                    return render(request, 'myProfile.html',
+                                  {'dictionary': dictionary, 'username': username, 'err': msg,
+                                   'phone_number': phone_dict, 'categories': category_dict})
 
         if 'phone' in request.POST:
             phone = request.POST['phone']
@@ -246,7 +262,10 @@ def load_profile(request):
                     number_fetched = str(number_fetched[0])
 
                 if number_fetched == phone:
-                    return render(request, 'myProfile.html')
+                    msg = "Phone Number Already in Use"
+                    return render(request, 'myProfile.html',
+                                  {'dictionary': dictionary, 'username': username, 'err': msg,
+                                   'phone_number': phone_dict, 'categories': category_dict})
                 else:
                     phone1 = str(phone1)
                     cursor = connection.cursor()
@@ -273,7 +292,10 @@ def load_profile(request):
                     number_fetched = str(number_fetched[0])
 
                 if number_fetched == phone_2:
-                    return render(request, 'myProfile.html')
+                    msg = "Phone Number 2 Already in Use"
+                    return render(request, 'myProfile.html',
+                                  {'dictionary': dictionary, 'username': username, 'err': msg,
+                                   'phone_number': phone_dict, 'categories': category_dict})
                 else:
                     phone2 = str(phone2)
                     cursor = connection.cursor()
@@ -300,7 +322,10 @@ def load_profile(request):
                     number_fetched = str(number_fetched[0])
 
                 if number_fetched == phone_3:
-                    return render(request, 'myProfile.html')
+                    msg = "Phone Number 3 Already in Use"
+                    return render(request, 'myProfile.html',
+                                  {'dictionary': dictionary, 'username': username, 'err': msg,
+                                   'phone_number': phone_dict, 'categories': category_dict})
                 else:
                     phone3 = str(phone3)
                     cursor = connection.cursor()
@@ -314,10 +339,10 @@ def load_profile(request):
                     cursor.close()
 
         keep_running_profile(request)  # reloads profile after changes made
-        return render(request, 'myProfile.html', {'dictionary': dictionary, 'username': username,
+        return render(request, 'myProfile.html', {'dictionary': dictionary, 'username': username, 'err': msg,
                                                   'phone_number': phone_dict, 'categories': category_dict})
     else:
-        return render(request, 'myProfile.html', {'dictionary': dictionary, 'username': username,
+        return render(request, 'myProfile.html', {'dictionary': dictionary, 'username': username, 'err': msg,
                                                   'phone_number': phone_dict, 'categories': category_dict})
 
 

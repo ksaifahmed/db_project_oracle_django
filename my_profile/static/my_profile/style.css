@@ -412,3 +412,10 @@ h1{
 .button-container{
   margin: auto;
 }
+
+.error-msg-div{
+  color: red;
+  font-size: 22px;
+  margin-top: 10px;
+  text-align: center;
+}

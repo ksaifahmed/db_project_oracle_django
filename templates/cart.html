@@ -49,9 +49,16 @@
             <div class="card">
 
                 <div class="item">
-                    <div class="prod-name">{{ p.name }}</div>
-                    <div class="price">Price: Tk {{ p.price }}</div>
-                    <div class="quantity">Quantity: {{ p.quantity }}</div>
+
+
+                    {% if p.stock %}
+                        <div class="prod-name">{{ p.name }}</div>
+                        <div class="price">Price: Tk {{ p.price }}</div>
+                        <div class="quantity">Quantity: {{ p.quantity }}</div>
+                    {% else %}
+                        <div class="prod-name" style="font-weight: 500; color: red;">{{ p.name }}</div>
+                        <div class="stock-out" style="font-weight: 500; color: red; font-size: 17px;">Out of Stock!</div>
+                    {% endif %}
                 </div>
 
                 <div class="close-link" style="width: fit-content;">
@@ -76,6 +83,7 @@
             <i class="fas fa-shopping-cart" style="width: 40px; height: 40px; font-size: 24px;"></i>
         </div>
 
+         {% if can_buy %}
        <form action="" method="post" style="padding-top: 15px;">
           {% csrf_token %}
 
@@ -88,7 +96,9 @@
                 </select>
                 <button style="background: #ff9917; display: block; margin-top: 15px; padding: 4px 7px 4px 7px; border: none; color: white; border-radius: 5px;" type="submit" id="buy-btn" name="buy-btn" class="buy-btn">Check Out</button>
        </form>
-
+        {% else %}
+             <div style="padding-top:7px; color: red;" class="remove-item">Remove Unavailable Items from List!</div>
+        {% endif %}
     </div>
 
      </div>
