@@ -1,0 +1,25 @@
+h2{
+    font-weight: 500;
+    font-size: 20px;
+    color: #00a76d;
+}
+
+p{
+
+}
+
+.main-card{
+    width: 60%;
+    margin: auto;
+}
+
+.date-wise-cards{
+    margin-top: 20px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    padding: 15px 20px 15px 20px;
+}
+
+.inner-card{
+    padding-bottom: 10px;
+    padding-top: 10px;
+}

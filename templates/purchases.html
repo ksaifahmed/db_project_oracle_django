@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>The Bazaar</title>
+    <link rel="stylesheet" href="{% static 'home/style.css' %}" type="text/css">
+      <link rel="stylesheet" href="{% static 'purchases/style.css' %}" type="text/css">
+
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        	<link rel="stylesheet" type="text/css" href="{% static 'register/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+  </head>
+  <body>
+    <nav>
+      <div class="menu-icon"><span class="fas fa-bars"></span></div>
+      <div class="logo">
+        <img src="{% static 'product/bazaarlogo.png' %}" alt="Logo" width="100px" height="70px">
+      </div>
+      <div class="nav-items">
+        <li><a href="/">Home</a></li>
+        <li>
+			<div class="dropdown">
+				<button class="dropbtn">Categories</button>
+				<div class="dropdown-content">
+                    {% for c in categories %}
+					<a href="/categories/{{ c.category }}/">{{ c.category }}</a>
+                    {% endfor %}
+				</div>
+			</div>
+		</li>
+        <li><a href="/profile">My Account</a></li>
+        <li><a href="/cart">Cart</a></li>
+        <li><a href="/logout">Logout ({{ username }})</a></li>
+      </div>
+      <div class="search-icon"><span class="fas fa-search"></span></div>
+      <div class="cancel-icon"><span class="fas fa-times"></span></div>
+      <form action="" method="post">
+          {% csrf_token %}
+        <input type="text" name="search" class="search-data" placeholder="Search Product" required>
+        <button type="submit" name="search-btn" class="fas fa-search"></button>
+      </form>
+    </nav>
+        <div class="main-card">
+        {% for products in products_list %}
+            <div class="date-wise-cards">
+                {% for c in products %}
+                    {% if forloop.first %}
+                        <h2 class="purchase-date">Purchase Date: {{ c.purchase_date }}</h2>
+                         <h2 class="payment-method">Payment via: {{ c.payment_method }}</h2>
+                    {% endif %}
+                {% endfor %}
+                {% for c in products %}
+                 <div class="inner-card">
+                    <p>{{ c.name }} </p>
+                    <p>Price: {{ c.price }} Tk (each)</p>
+                    <p>Quantity: {{ c.quantity }} </p>
+                 </div>
+                {% endfor %}
+            </div>
+            <br>
+        {% endfor %}
+        </div>
+  <script type="text/javascript" src="{% static 'home/script.js' %}"></script>
+  </body>
+</html>

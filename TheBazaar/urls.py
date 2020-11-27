@@ -22,6 +22,7 @@ import register.views as reg_views
 import login.views as login_views
 import cart.views as cart_view
 import my_profile.views as profile_view
+import purchases.views as purchases_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,5 +34,6 @@ urlpatterns = [
     path('logout/', login_views.del_session),
     path('cart/', cart_view.load_cart),
     path('cart-removal/<slug:slug>/', cart_view.del_cart_item),
-    path('profile/', profile_view.load_profile)
+    path('profile/', profile_view.load_profile),
+    path('purchases/', purchases_view.load_orders)
 ]

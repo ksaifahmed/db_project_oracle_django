@@ -42,10 +42,6 @@ def keep_running_profile(request):
     dictionary = []
     phone_dict = []
 
-    # send to login if no session exists:
-    if not ('customer_id' in request.session):
-        return redirect(login_views.load_login)
-
     id = request.session['customer_id']
 
     id = str(id)
@@ -138,6 +134,10 @@ def load_profile(request):
     global phone2
     global phone3
     global msg
+
+    # send to login if no session exists:
+    if not ('customer_id' in request.session):
+        return redirect(login_views.load_login)
 
     msg = ""
     keep_running_profile(request)

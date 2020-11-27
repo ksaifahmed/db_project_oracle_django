@@ -306,6 +306,7 @@ nav .logo.space{
   font-weight: 500;
   margin-top: 20px;
   position: relative;
+  transition: 0.5s;
 }
 
 /* The popup form - hidden by default */
@@ -359,24 +360,31 @@ nav .logo.space{
   opacity: 0.8;
   font-size: 14px;
   margin: 20px;
+  transition: 0.5s;
 }
 
 /* Add a red background color to the cancel button */
 .form-container .cancel {
-  background-color: red;
+  background-color: #ff771c;
   font-size: 14px;
   width: 90px;
   margin: 20px;
+  transition: 0.5s;
 }
 
 /* Add some hover effects to buttons */
 .form-container .btn:hover, .open-button:hover {
-  opacity: 1;
+  background: orange;
+}
+
+.form-container .cancel:hover {
+  background: #ff110a;
 }
 
 .body-div{
   margin-top: 18px;
 }
+
 
 .main_container{
   background: #ffffff;
@@ -418,4 +426,22 @@ h1{
   font-size: 22px;
   margin-top: 10px;
   text-align: center;
+}
+
+.purchase-link{
+    text-decoration: none;
+    background: #ffc70b;
+    color: white;
+    transition: 0.5s;
+    padding: 10px 20px 10px 20px;
+    margin: auto;
+}
+
+.transactions{
+    text-align: center;
+    margin: auto;
+}
+
+.purchase-link:hover{
+  background: orange;
 }
