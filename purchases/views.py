@@ -56,6 +56,13 @@ def load_orders(request):
             price = [x[0] for x in table]
             price = str(price[0])
 
+            disc = cursor.callfunc('HAD_DISCOUNT_ON_PURCHASE', str, [product_id, date])
+            if disc != "NO":
+                price = int(price)
+                disc = int(disc)
+                price = price * ((100-disc)/100)
+                price = str(price)
+
             name = [x[1] for x in table]
             name = str(name[0])
 

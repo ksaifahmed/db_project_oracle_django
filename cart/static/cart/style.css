@@ -337,3 +337,21 @@ nav .logo.space{
 #buy-btn :hover{
     background: #95ff13;
 }
+
+.purchase-link{
+    text-decoration: none;
+    background: #ffc70b;
+    color: white;
+    transition: 0.5s;
+    padding: 10px 20px 10px 20px;
+    margin: auto;
+}
+
+.transactions{
+    text-align: center;
+    margin: auto;
+}
+
+.purchase-link:hover{
+  background: orange;
+}
