@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="{% static 'my_profile/style.css' %}" type="text/css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body>
+    <nav>
+      <div class="menu-icon"><span class="fas fa-bars"></span></div>
+      <div class="logo">
+        <img src="{% static 'my_profile/bazaarlogo.png' %}" alt="Logo" width="100px" height="70px">
+      </div>
+      <div class="nav-items">
+        <li><a href="/">Home</a></li>
+        <li>
+			<div class="dropdown">
+				<button class="dropbtn">Categories</button>
+				<div class="dropdown-content">
+                    {% for c in categories %}
+					<a href="/categories/{{ c.category }}/">{{ c.category }}</a>
+                    {% endfor %}
+				</div>
+			</div>
+		</li>
+        <li><a href="/profile">My Account</a></li>
+              <li><a href="/cart">Cart</a></li>
+        <li><a href="/logout">Logout ({{ username }})</a></li>
+      </div>
+      <div class="search-icon"><span class="fas fa-search"></span></div>
+      <div class="cancel-icon"><span class="fas fa-times"></span></div>
+      <form action="" method="post">
+        {% csrf_token %}
+        <input type="text" name="search" class="search-data" placeholder="Search Product" required>
+        <button type="submit" name="search-btn" class="fas fa-search"></button>
+      </form>
+    </nav>
+
+<div class="body-div">
+<div class="main_container">
+
+    {% for c in dictionary %}
+        <h2>FIRST NAME : {{c.first_name}} </h2>
+        <h2>LAST NAME : {{ c.last_name }} </h2>
+        <h2>AGE : {{ c.age }} </h2>
+        <h2>BANK ACCOUNT NO : {{ c.bank }} </h2>
+        <h2>Gender : {{ c.gender }} </h2>
+        <h2>EMAIL : {{ c.email }} </h2>
+        <h2>HOUSE NO : {{ c.house }} </h2>
+        <h2>STREET : {{ c.street }} </h2>
+        <h2>POSTAL CODE : {{ c.postal_code }} </h2>
+        <h2>CITY : {{ c.city }} </h2>
+    {% endfor %}
+
+    {% for c in phone_number %}
+
+        <h2>PHONE NO: {{c.phone1}} </h2>
+
+        {% if c.phone2 %}
+            <h2>PHONE NO 2: {{c.phone2}} </h2>
+        {% endif %}
+
+        {% if c.phone3 %}
+            <h2>PHONE NO 3: {{c.phone3}} </h2>
+        {% endif %}
+
+    {% endfor %}
+
+    <button class="open-button" onclick="openForm()">Edit Profile</button>
+
+
+    <div class="form-popup" id="myForm">
+
+        <form method="post" action="" class="form-container">
+
+            {% csrf_token %}
+
+            <h1>EDIT PROFILE:</h1>
+
+            <label for="email"><b>Email</b></label>
+            <input type="text" placeholder="Enter New Email" name="email" >
+
+            <label for="old_password"><b>Current Password</b></label>
+            <input type="password" placeholder="Enter Current Password" name="old_password" >
+
+            <label for="password"><b>New Password</b></label>
+            <input type="password" placeholder="Enter New Password" name="password" >
+
+            <label for="bank"><b>Bank Account</b></label>
+            <input type="number" placeholder="Enter Bank Account No" name="bank" >
+
+            <label for="house"><b>House Number</b></label>
+            <input type="text" placeholder="Enter House No" name="house" >
+
+            <label for="street"><b>Street </b></label>
+            <input type="text" placeholder="Enter Street No" name="street" >
+
+            <label for="postal_code"><b>Postal Code</b></label>
+            <input type="number" placeholder="Enter Postal Code" name="postal_code" >
+
+            <label for="city"><b>City</b></label>
+            <input type="text" placeholder="Enter City" name="city" >
+
+            <label for="phone"><b>Phone Number</b></label>
+            <input type="number" placeholder="Enter Phone No" name="phone" max="1999999999" min="1000000000">
+
+            <label for="phone_2"><b>Phone Number 2</b></label>
+            <input type="number" placeholder="Enter Phone No (2)" name="phone_2" max="1999999999" min="1000000000" >
+
+            <label for="phone_3"><b>Phone Number 3</b></label>
+            <input type="number" placeholder="Enter Phone No (3)" name="phone_3" max="1999999999" min="1000000000" >
+
+            <div class="button-container">
+                <div class="edit-form-btns">
+                    <button type="submit" class="btn" name="submit">Save</button>
+                    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                </div>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+
+
+
+</div>
+</div>
+
+
+<script>
+    closeForm();
+
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+    }
+
+    if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+    }
+
+</script>
+<script type="text/javascript" src="{% static 'my_profile/script.js' %}"></script>
+</body>
+</html>

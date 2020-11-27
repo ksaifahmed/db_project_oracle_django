@@ -93,7 +93,7 @@ def load_home(request):
     })
 
 
-# sql generator:
+# search sql generator:
 def search_sql_generator(keywords):
     keywords = keywords.split()
 
