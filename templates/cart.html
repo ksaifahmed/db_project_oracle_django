@@ -30,7 +30,7 @@
 			</div>
 		</li>
         <li><a href="/profile">My Account</a></li>
-        <li><a href="/cart">Cart</a></li>
+        <li><a href="/cart">Cart{{ items_len }}</a></li>
         <li><a href="/logout">Logout ({{ username }})</a></li>
       </div>
       <div class="search-icon"><span class="fas fa-search"></span></div>
@@ -87,13 +87,16 @@
        <form action="" method="post" style="padding-top: 15px;">
           {% csrf_token %}
 
+           <input id="name" type="text" name="gift" class="gift" placeholder="Gift Someone">
+
             <label for="payment-meth">Choose payment method:</label>
 
-                <select id="payment-meth" name="payment" class="payment-meth" style="display:block; border: none; border-radius: 3px; padding: 5px;" required>
+                <select id="payment-meth" name="payment" class="payment-meth" style="display:block; border: none; border-radius: 3px; padding: 5px; margin-top: 5px;" required>
                     <option value=""></option>
                     <option value="COD">Cash on Delivery</option>
                     <option value="Bank">Bank A/C</option>
                 </select>
+
                 <button style="background: #ff9917; display: block; margin-top: 15px; padding: 4px 7px 4px 7px; border: none; color: white; border-radius: 5px;" type="submit" id="buy-btn" name="buy-btn" class="buy-btn">Check Out</button>
        </form>
         {% else %}

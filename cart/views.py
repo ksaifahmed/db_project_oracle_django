@@ -58,10 +58,18 @@ def load_cart(request):
     if not('customer_id' in request.session):
         return redirect(load_login)
 
+    cart_item_no = ""
+    if 'cart' in request.session:
+        my_cart = request.session['cart']
+        if len(my_cart) > 0:
+            cart_item_no = "(" + str(len(my_cart)) + ")"
+
     # buy btn pressed:
     if request.method == 'POST' and 'buy-btn' in request.POST:
         payment = str(request.POST['payment'])
-        check_out(payment, request)
+        gift_for = str(request.POST['gift'])
+        cart_item_no = ""
+        check_out(payment, gift_for, request)
 
     # search btn pressed
     if request.method == 'POST' and 'search-btn' in request.POST:
@@ -115,10 +123,12 @@ def load_cart(request):
         else:
             can_check_out = ""
         return render(request, "cart.html", {'username': username, 'categories': cat_dict, 'can_buy': can_check_out,
-                                             'cart': cart_list, 'total_price': total, 'total_items': items})
+                                             'cart': cart_list, 'total_price': total, 'total_items': items,
+                                             'items_len': cart_item_no})
     else:
         return render(request, "cart.html", {'username': username, 'categories': cat_dict,
-                                             'cart': cart_list, 'total_price': total, 'total_items': items})
+                                             'cart': cart_list, 'total_price': total, 'total_items': items,
+                                             'items_len': cart_item_no})
 
 
 def del_cart_item(request, slug):
@@ -134,7 +144,7 @@ def del_cart_item(request, slug):
     return redirect(load_cart)
 
 
-def check_out(payment, request):
+def check_out(payment, gift_for, request):
     if 'cart' in request.session:
         cursor = connection.cursor()
         cart_list = request.session['cart']
@@ -145,19 +155,35 @@ def check_out(payment, request):
         transaction_id = int(cursor.callfunc('GET_TRANSACTION_ID', str))
         transaction_id += 1
 
+        if gift_for == "":
+            gift_for = "NULL"
         # TO_DATE('2020-11-28 18:13:09', 'YYYY-MM-DD HH24:MI:SS')
 
         for item in cart_list:
             pid = str(item['product_id'])
             quan = str(item['quantity'])
 
+            sql = "SELECT PRICE FROM PRODUCT WHERE PRODUCT_ID = " + pid + ";"
+            cursor.execute(sql)
+            table = cursor.fetchall()
+            price = [data[0] for data in table]
+            price = str(price[0])
+
+            disc = cursor.callfunc('HAS_DISCOUNT', str, [pid])
+            if disc != "NO":
+                perc = int(disc)
+                price = int(price) * ((100 - perc) / 100)
+                price = str(price)
+
             sql = """INSERT INTO TRANSACTION (TRANSACTION_ID, CUSTOMER_ID, 
-            PRODUCT_ID, QUANTITY, PAYMENT_METHOD, PURCHASE_DATE, EMPLOYEE_ID)
+            PRODUCT_ID, QUANTITY, PAYMENT_METHOD, PURCHASE_DATE, EMPLOYEE_ID, PRICE, GIFT_FOR)
             VALUES (""" + str(transaction_id) + "," + c_id + "," + pid + "," + quan + ",'" + payment + "'," + """
-            TO_DATE('""" + purchase_date + "', 'YYYY-MM-DD HH24:MI:SS')" + "," + employee_id + ");"
+            TO_DATE('""" + purchase_date + "', 'YYYY-MM-DD HH24:MI:SS')" + "," + employee_id + """
+            ,""" + price + ",'" + gift_for + "');"
 
             transaction_id += 1
             cursor.execute(sql)
 
+        request.session['cart'] = ""
         del request.session['cart']
         return redirect(load_cart)

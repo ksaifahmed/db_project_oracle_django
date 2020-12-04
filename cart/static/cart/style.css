@@ -355,3 +355,11 @@ nav .logo.space{
 .purchase-link:hover{
   background: orange;
 }
+
+.gift{
+  border: none;
+  padding: 5px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  display: block;
+}

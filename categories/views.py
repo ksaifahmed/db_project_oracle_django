@@ -12,6 +12,12 @@ def load_category(request, slug):
     if not('customer_id' in request.session):
         return redirect(load_login)
 
+    cart_item_no = ""
+    if 'cart' in request.session:
+        my_cart = request.session['cart']
+        if len(my_cart) > 0:
+            cart_item_no = "(" + str(len(my_cart)) + ")"
+
     if request.method == 'POST':
         keywords = request.POST['search']
         keywords = str(keywords)
@@ -94,5 +100,5 @@ def load_category(request, slug):
     # return render(request,'list_jobs.html',{'jobs' : Job.objects.all()})
     return render(request, 'category.html', {
         'username': username, 'categories': category_dict, 'products': product_dict,
-        'current_category': current_category
+        'current_category': current_category, 'items_len': cart_item_no
     })

@@ -32,7 +32,7 @@
 			</div>
 		</li>
         <li><a href="/profile">My Account</a></li>
-        <li><a href="/cart">Cart</a></li>
+        <li><a href="/cart">Cart{{ items_len }}</a></li>
         <li><a href="/logout">Logout ({{ username }})</a></li>
       </div>
       <div class="search-icon"><span class="fas fa-search"></span></div>
@@ -50,6 +50,7 @@
                     {% if forloop.first %}
                         <h2 class="purchase-date">Purchase Date: {{ c.purchase_date }}</h2>
                          <h2 class="payment-method">Payment via: {{ c.payment_method }}</h2>
+                         <h2 class="gift">{{ c.gift }}</h2>
                     {% endif %}
                 {% endfor %}
                 {% for c in products %}

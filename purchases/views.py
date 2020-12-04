@@ -11,6 +11,12 @@ def load_orders(request):
     cid = request.session['customer_id']
     cid = str(cid)
 
+    cart_item_no = ""
+    if 'cart' in request.session:
+        my_cart = request.session['cart']
+        if len(my_cart) > 0:
+            cart_item_no = "(" + str(len(my_cart)) + ")"
+
     # search btn pressed
     if request.method == 'POST' and 'search-btn' in request.POST:
         keywords = request.POST['search']
@@ -20,7 +26,9 @@ def load_orders(request):
     cursor = connection.cursor()
 
     # gets a list of purchase dates
-    sql = "SELECT DISTINCT PURCHASE_DATE FROM TRANSACTION WHERE CUSTOMER_ID = " + str(cid) + ";"
+    sql = """SELECT DISTINCT PURCHASE_DATE FROM TRANSACTION 
+             WHERE CUSTOMER_ID = """ + str(cid) + """
+             ORDER BY PURCHASE_DATE DESC;"""
     cursor.execute(sql)
     dates = cursor.fetchall()
     product_dict = []
@@ -29,7 +37,7 @@ def load_orders(request):
         date = str(date[0])
 
         # ei date e ki ki bought
-        sql = """SELECT * FROM TRANSACTION 
+        sql = """SELECT PRODUCT_ID, QUANTITY, PAYMENT_METHOD, PRICE, PURCHASE_DATE, GIFT_FOR FROM TRANSACTION 
                 WHERE CUSTOMER_ID = '""" + cid + """'
                 AND PURCHASE_DATE = '""" + date + "';"
 
@@ -39,34 +47,31 @@ def load_orders(request):
         dictionary = []
 
         for data in table:
-            product_id = data[2]
-            quantity = data[3]
-            payment_method = data[4]
-            purchase_date = data[5]
+            product_id = data[0]
+            quantity = data[1]
+            payment_method = data[2]
+            purchase_date = data[4]
+            price = data[3]
+            gift = data[5]
+
+            if gift != "NULL":
+                gift = "Gift To: " + gift
+            else:
+                gift = ""
 
             if payment_method == "COD":
                 payment_method = "Cash on Delivery"
             else:
                 payment_method = "Bank A/C"
 
-            sql = "SELECT PRICE, NAME FROM PRODUCT WHERE PRODUCT_ID = " + str(product_id) + ";"
+            sql = "SELECT NAME FROM PRODUCT WHERE PRODUCT_ID = " + str(product_id) + ";"
             cursor.execute(sql)
             table = cursor.fetchall()
 
-            price = [x[0] for x in table]
-            price = str(price[0])
-
-            disc = cursor.callfunc('HAD_DISCOUNT_ON_PURCHASE', str, [product_id, date])
-            if disc != "NO":
-                price = int(price)
-                disc = int(disc)
-                price = price * ((100-disc)/100)
-                price = str(price)
-
-            name = [x[1] for x in table]
+            name = [x[0] for x in table]
             name = str(name[0])
 
-            row = {'price': price, 'quantity': quantity, 'name': name,
+            row = {'price': price, 'quantity': quantity, 'name': name, 'gift': gift,
                    'payment_method': payment_method, 'purchase_date': purchase_date}
             dictionary.append(row)
 
@@ -101,4 +106,4 @@ def load_orders(request):
         category_dict.append(row)
 
     return render(request, 'purchases.html', {'products_list': product_dict, 'username': username,
-                                              'categories': category_dict})
+                                              'categories': category_dict, 'items_len': cart_item_no})

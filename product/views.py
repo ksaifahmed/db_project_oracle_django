@@ -23,6 +23,12 @@ def load_product(request, slug):
     if not('customer_id' in request.session):
         return redirect(load_login)
 
+    cart_item_no = ""
+    if 'cart' in request.session:
+        my_cart = request.session['cart']
+        if len(my_cart) > 0:
+            cart_item_no = "(" + str(len(my_cart)) + ")"
+
     if request.method == 'POST' and 'search-btn' in request.POST:
         keywords = request.POST['search']
         keywords = str(keywords)
@@ -109,12 +115,17 @@ def load_product(request, slug):
 
         if not ('cart' in request.session):
             request.session['cart'] = init_cart(pid, data)
+            cart = request.session['cart']
+            cart_item_no = len(cart)
+            cart_item_no = "(" + str(cart_item_no) + ")"
         else:
             cart = request.session['cart']
             cart = add_to_cart(pid, data, cart)
+            cart_item_no = len(cart)
+            cart_item_no = "(" + str(cart_item_no) + ")"
             request.session['cart'] = cart
 
-        return render(request, 'productpage.html', {'stock_info': stock_info, 'username': username, 'product': product_dict, 'categories': cat_dict, 'quantity_selected': q_dict})
+        return render(request, 'productpage.html', {'stock_info': stock_info, 'username': username, 'product': product_dict, 'categories': cat_dict, 'quantity_selected': q_dict, 'items_len': cart_item_no})
 
     cursor.close()
-    return render(request, 'productpage.html', {'stock_info': stock_info, 'username': username, 'product': product_dict, 'categories': cat_dict})
+    return render(request, 'productpage.html', {'stock_info': stock_info, 'username': username, 'product': product_dict, 'categories': cat_dict, 'items_len': cart_item_no})

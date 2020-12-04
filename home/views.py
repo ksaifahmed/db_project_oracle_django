@@ -11,6 +11,12 @@ def load_home(request):
     if not('customer_id' in request.session):
         return redirect(load_login)
 
+    cart_item_no = ""
+    if 'cart' in request.session:
+        my_cart = request.session['cart']
+        if len(my_cart) > 0:
+            cart_item_no = "(" + str(len(my_cart)) + ")"
+
     if request.method == 'POST':
         keywords = request.POST['search']
         keywords = str(keywords)
@@ -89,7 +95,8 @@ def load_home(request):
 
     # return render(request,'list_jobs.html',{'jobs' : Job.objects.all()})
     return render(request, 'home.html', {
-        'categories': category_dict, 'products': product_dict, 'username': username
+        'categories': category_dict, 'products': product_dict,
+        'username': username, 'items_len': cart_item_no
     })
 
 
@@ -115,7 +122,14 @@ def load_search_result(request, keywords):
     if not ('customer_id' in request.session):
         return redirect(load_login)
 
+    cart_item_no = ""
+    if 'cart' in request.session:
+        my_cart = request.session['cart']
+        if len(my_cart) > 0:
+            cart_item_no = "(" + str(len(my_cart)) + ")"
+
     search_keys = keywords
+
     keywords = keywords.upper()
 
     # Getting categories of products in stock:
@@ -199,6 +213,6 @@ def load_search_result(request, keywords):
     # return render(request,'list_jobs.html',{'jobs' : Job.objects.all()})
     return render(request, 'home.html', {
         'categories': category_dict, 'products': product_dict, 'username': username,
-        'search': search_keys
+        'search': search_keys, 'items_len': cart_item_no
     })
 

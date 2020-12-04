@@ -142,6 +142,12 @@ def load_profile(request):
     msg = ""
     keep_running_profile(request)
 
+    cart_item_no = ""
+    if 'cart' in request.session:
+        my_cart = request.session['cart']
+        if len(my_cart) > 0:
+            cart_item_no = "(" + str(len(my_cart)) + ")"
+
     # search btn pressed
     if request.method == 'POST' and 'search-btn' in request.POST:
         keywords = request.POST['search']
@@ -205,7 +211,8 @@ def load_profile(request):
                 # email already in use given!
                 if email_fetched == email:
                     msg = "Email Already in Use"
-                    return render(request, 'myProfile.html', {'dictionary': dictionary, 'username': username, 'err': msg,
+                    return render(request, 'myProfile.html', {'dictionary': dictionary, 'username': username,
+                                                              'err': msg, 'items_len': cart_item_no,
                                                               'phone_number': phone_dict, 'categories': category_dict})
                 else:
                     cursor = connection.cursor()
@@ -240,13 +247,15 @@ def load_profile(request):
                             return render(request, 'myProfile.html', {'dictionary': dictionary,
                                                                       'username': username, 'err': msg,
                                                                       'phone_number': phone_dict,
-                                                                      'categories': category_dict})
+                                                                      'categories': category_dict,
+                                                                      'items_len': cart_item_no})
                 else:
                     # old password does not match
                     msg = "Current Password Incorrect"
                     return render(request, 'myProfile.html',
                                   {'dictionary': dictionary, 'username': username, 'err': msg,
-                                   'phone_number': phone_dict, 'categories': category_dict})
+                                   'phone_number': phone_dict, 'categories': category_dict,
+                                   'items_len': cart_item_no})
 
         if 'phone' in request.POST:
             phone = request.POST['phone']
@@ -265,7 +274,8 @@ def load_profile(request):
                     msg = "Phone Number Already in Use"
                     return render(request, 'myProfile.html',
                                   {'dictionary': dictionary, 'username': username, 'err': msg,
-                                   'phone_number': phone_dict, 'categories': category_dict})
+                                   'phone_number': phone_dict, 'categories': category_dict,
+                                   'items_len': cart_item_no})
                 else:
                     phone1 = str(phone1)
                     cursor = connection.cursor()
@@ -295,7 +305,8 @@ def load_profile(request):
                     msg = "Phone Number 2 Already in Use"
                     return render(request, 'myProfile.html',
                                   {'dictionary': dictionary, 'username': username, 'err': msg,
-                                   'phone_number': phone_dict, 'categories': category_dict})
+                                   'phone_number': phone_dict, 'categories': category_dict,
+                                   'items_len': cart_item_no})
                 else:
                     phone2 = str(phone2)
                     cursor = connection.cursor()
@@ -325,7 +336,8 @@ def load_profile(request):
                     msg = "Phone Number 3 Already in Use"
                     return render(request, 'myProfile.html',
                                   {'dictionary': dictionary, 'username': username, 'err': msg,
-                                   'phone_number': phone_dict, 'categories': category_dict})
+                                   'phone_number': phone_dict, 'categories': category_dict,
+                                   'items_len': cart_item_no})
                 else:
                     phone3 = str(phone3)
                     cursor = connection.cursor()
@@ -340,10 +352,12 @@ def load_profile(request):
 
         keep_running_profile(request)  # reloads profile after changes made
         return render(request, 'myProfile.html', {'dictionary': dictionary, 'username': username, 'err': msg,
-                                                  'phone_number': phone_dict, 'categories': category_dict})
+                                                  'phone_number': phone_dict, 'categories': category_dict,
+                                                  'items_len': cart_item_no})
     else:
         return render(request, 'myProfile.html', {'dictionary': dictionary, 'username': username, 'err': msg,
-                                                  'phone_number': phone_dict, 'categories': category_dict})
+                                                  'phone_number': phone_dict, 'categories': category_dict,
+                                                  'items_len': cart_item_no})
 
 
 
