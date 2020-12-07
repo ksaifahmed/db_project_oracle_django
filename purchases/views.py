@@ -26,58 +26,54 @@ def load_orders(request):
     cursor = connection.cursor()
 
     # gets a list of purchase dates
-    sql = """SELECT DISTINCT PURCHASE_DATE FROM TRANSACTION 
-             WHERE CUSTOMER_ID = """ + str(cid) + """
-             ORDER BY PURCHASE_DATE DESC;"""
+    sql = """SELECT p.NAME, t.PRICE, t.QUANTITY, t.PAYMENT_METHOD, t.PURCHASE_DATE, t.GIFT_FOR
+             FROM "THE_BAZAAR".PRODUCT p, "THE_BAZAAR".TRANSACTION t
+             WHERE p.PRODUCT_ID = t.PRODUCT_ID AND t.GIFT_FOR = 'Ridwan' AND t.CUSTOMER_ID = """ + cid + """ 
+             ORDER BY t.PURCHASE_DATE DESC;"""
     cursor.execute(sql)
-    dates = cursor.fetchall()
+    data_table = cursor.fetchall()
     product_dict = []
+    dictionary = []
 
-    for date in dates:
-        date = str(date[0])
+    length = len(data_table)
+    for index, data in enumerate(data_table):
 
-        # ei date e ki ki bought
-        sql = """SELECT PRODUCT_ID, QUANTITY, PAYMENT_METHOD, PRICE, PURCHASE_DATE, GIFT_FOR FROM TRANSACTION 
-                WHERE CUSTOMER_ID = '""" + cid + """'
-                AND PURCHASE_DATE = '""" + date + "';"
+        name = data[0]
+        price = data[1]
+        quantity = data[2]
+        payment_method = data[3]
+        purchase_date = data[4]
+        gift = data[5]
 
-        cursor.execute(sql)
-        table = cursor.fetchall()
+        if gift != "NULL":
+            gift = "Gift To: " + gift
+        else:
+            gift = ""
 
-        dictionary = []
+        if payment_method == "COD":
+            payment_method = "Cash on Delivery"
+        else:
+            payment_method = "Bank A/C"
 
-        for data in table:
-            product_id = data[0]
-            quantity = data[1]
-            payment_method = data[2]
-            purchase_date = data[4]
-            price = data[3]
-            gift = data[5]
+        row = {'price': price, 'quantity': quantity, 'name': name, 'gift': gift,
+               'payment_method': payment_method, 'purchase_date': purchase_date}
+        dictionary.append(row)
 
-            if gift != "NULL":
-                gift = "Gift To: " + gift
-            else:
-                gift = ""
+        # This condition makes sure that purchases of the
+        # same date are displayed together
+        # if next-row exists, check if purchase date matches
+        # if date does not match, append the "list-of-dict" and empty it!
+        if index < (length - 1):
+            next_row = data_table[index + 1]
+            if purchase_date != next_row[4]:
+                product_dict.append(dictionary)
+                dictionary = []
+        # append the last
+        if index == length - 1:
+            product_dict.append(dictionary)
 
-            if payment_method == "COD":
-                payment_method = "Cash on Delivery"
-            else:
-                payment_method = "Bank A/C"
 
-            sql = "SELECT NAME FROM PRODUCT WHERE PRODUCT_ID = " + str(product_id) + ";"
-            cursor.execute(sql)
-            table = cursor.fetchall()
-
-            name = [x[0] for x in table]
-            name = str(name[0])
-
-            row = {'price': price, 'quantity': quantity, 'name': name, 'gift': gift,
-                   'payment_method': payment_method, 'purchase_date': purchase_date}
-            dictionary.append(row)
-
-        # list of dictionaries, each list item contains ek date er all products
-        product_dict.append(dictionary)
-
+    # username display
     sql = "SELECT EMAIL FROM CUSTOMER WHERE CUSTOMER_ID = " + cid
     cursor.execute(sql)
     name_table = cursor.fetchall()

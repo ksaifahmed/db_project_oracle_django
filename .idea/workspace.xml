@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="337e2fc1-ed7e-4f80-b4e6-7c0338d85f70" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cart/static/cart/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/cart/static/cart/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cart/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/cart/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categories/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/categories/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/home/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_profile/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/my_profile/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/purchases/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/purchases/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/cart.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/category.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/category.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/myProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/myProfile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/productpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/productpage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/purchases.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/purchases.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -45,11 +33,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/purchases/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="80" column="23" selection-start-line="80" selection-start-column="23" selection-end-line="80" selection-end-column="23" />
+            <state relative-caret-position="-170">
+              <caret line="72" column="43" lean-forward="true" selection-start-line="72" selection-start-column="43" selection-end-line="72" selection-end-column="43" />
               <folding>
                 <element signature="e#0#45#0" expanded="true" />
               </folding>
@@ -57,23 +45,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/templates/cart.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="93" column="160" selection-start-line="93" selection-start-column="160" selection-end-line="93" selection-end-column="160" />
-              <folding>
-                <element signature="n#style#0;n#button#0;n#form#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cart/static/cart/style.css">
+        <entry file="file://$PROJECT_DIR$/templates/purchases.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="362" column="21" selection-start-line="362" selection-start-column="21" selection-end-line="362" selection-end-column="21" />
+            <state relative-caret-position="361">
+              <caret line="55" column="39" lean-forward="true" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -143,16 +119,16 @@
         <option value="$PROJECT_DIR$/product/views.py" />
         <option value="$PROJECT_DIR$/cart/views.py" />
         <option value="$PROJECT_DIR$/templates/purchases.html" />
-        <option value="$PROJECT_DIR$/purchases/views.py" />
         <option value="$PROJECT_DIR$/cart/static/cart/style.css" />
         <option value="$PROJECT_DIR$/templates/cart.html" />
+        <option value="$PROJECT_DIR$/purchases/views.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="284" />
-    <option name="y" value="135" />
-    <option name="width" value="769" />
+    <option name="x" value="86" />
+    <option name="y" value="71" />
+    <option name="width" value="850" />
     <option name="height" value="646" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -352,11 +328,12 @@
       <workItem from="1606912525701" duration="511000" />
       <workItem from="1607064468972" duration="377000" />
       <workItem from="1607069212547" duration="7948000" />
+      <workItem from="1607341899102" duration="4567000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="271266000" />
+    <option name="totallyTimeSpent" value="275833000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -371,7 +348,7 @@
     <frame x="-8" y="-8" width="1296" height="736" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.32686085" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.122977346" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info active="true" anchor="bottom" id="manage.py@mysite" order="1" visible="true" weight="0.3294702" />
@@ -383,7 +360,7 @@
       <window_info anchor="bottom" id="Message" order="7" />
       <window_info anchor="bottom" id="Find" order="8" weight="0.33448276" />
       <window_info anchor="bottom" id="Favorites" order="9" weight="0.32931036" />
-      <window_info anchor="bottom" id="Run" order="10" weight="0.27068967" />
+      <window_info anchor="bottom" id="Run" order="10" weight="0.14827587" />
       <window_info anchor="bottom" id="Debug" order="11" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="12" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="13" weight="0.4" />
@@ -620,16 +597,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/home/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="129" selection-start-line="129" selection-end-line="129" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/my_profile/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
@@ -660,26 +627,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/purchases.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="52" column="42" selection-start-line="52" selection-start-column="42" selection-end-line="52" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/purchases/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="80" column="23" selection-start-line="80" selection-start-column="23" selection-end-line="80" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cart/static/cart/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
+        <state relative-caret-position="6516">
           <caret line="362" column="21" selection-start-line="362" selection-start-column="21" selection-end-line="362" selection-end-column="21" />
         </state>
       </provider>
@@ -688,8 +638,32 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="164">
           <caret line="93" column="160" selection-start-line="93" selection-start-column="160" selection-end-line="93" selection-end-column="160" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/home/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-594">
+          <caret line="129" selection-start-line="129" selection-end-line="129" />
           <folding>
-            <element signature="n#style#0;n#button#0;n#form#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/purchases.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="55" column="39" lean-forward="true" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/purchases/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-170">
+          <caret line="72" column="43" lean-forward="true" selection-start-line="72" selection-start-column="43" selection-end-line="72" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
           </folding>
         </state>
       </provider>
