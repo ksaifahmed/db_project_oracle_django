@@ -25,10 +25,10 @@ def load_orders(request):
 
     cursor = connection.cursor()
 
-    # gets a list of purchase dates
+    # gets list of purchases with product names ordered by newest bought
     sql = """SELECT p.NAME, t.PRICE, t.QUANTITY, t.PAYMENT_METHOD, t.PURCHASE_DATE, t.GIFT_FOR
              FROM "THE_BAZAAR".PRODUCT p, "THE_BAZAAR".TRANSACTION t
-             WHERE p.PRODUCT_ID = t.PRODUCT_ID AND t.GIFT_FOR = 'Ridwan' AND t.CUSTOMER_ID = """ + cid + """ 
+             WHERE p.PRODUCT_ID = t.PRODUCT_ID AND t.CUSTOMER_ID = """ + cid + """ 
              ORDER BY t.PURCHASE_DATE DESC;"""
     cursor.execute(sql)
     data_table = cursor.fetchall()
