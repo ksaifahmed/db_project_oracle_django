@@ -101,5 +101,12 @@ def load_orders(request):
         row = {'category': category}
         category_dict.append(row)
 
+    sql = """SELECT OFFER_ID FROM PRODUCT WHERE OFFER_ID IS NOT NULL;"""
+    cursor.execute(sql)
+    temp = cursor.fetchall()
+    if cursor.rowcount > 0:
+        row = {'category': "Discounts"}
+        category_dict.append(row)
+
     return render(request, 'purchases.html', {'products_list': product_dict, 'username': username,
                                               'categories': category_dict, 'items_len': cart_item_no})

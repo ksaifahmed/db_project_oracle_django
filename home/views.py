@@ -46,6 +46,13 @@ def load_home(request):
         row = {'category': category}
         category_dict.append(row)
 
+    sql = """SELECT OFFER_ID FROM PRODUCT WHERE OFFER_ID IS NOT NULL;"""
+    cursor.execute(sql)
+    temp = cursor.fetchall()
+    if cursor.rowcount > 0:
+        row = {'category': "Discounts"}
+        category_dict.append(row)
+
     # Getting products list in stock:
     sql = """SELECT NAME, BRAND, PRICE, IMAGE_LINK, PRODUCT_ID, o.DESCRIPTION
             FROM THE_BAZAAR.PRODUCT p, THE_BAZAAR.OFFER o
@@ -154,6 +161,13 @@ def load_search_result(request, keywords):
     for r in categories:
         category = r[0]
         row = {'category': category}
+        category_dict.append(row)
+
+    sql = """SELECT OFFER_ID FROM PRODUCT WHERE OFFER_ID IS NOT NULL;"""
+    cursor.execute(sql)
+    temp = cursor.fetchall()
+    if cursor.rowcount > 0:
+        row = {'category': "Discounts"}
         category_dict.append(row)
 
     # Getting products list in stock:

@@ -115,6 +115,13 @@ def keep_running_profile(request):
         row = {'category': category}
         category_dict.append(row)
 
+    sql = """SELECT OFFER_ID FROM PRODUCT WHERE OFFER_ID IS NOT NULL;"""
+    cursor.execute(sql)
+    temp = cursor.fetchall()
+    if cursor.rowcount > 0:
+        row = {'category': "Discounts"}
+        category_dict.append(row)
+
     sql = "SELECT EMAIL FROM CUSTOMER WHERE CUSTOMER_ID = " + id
     cursor.execute(sql)
     name_table = cursor.fetchall()

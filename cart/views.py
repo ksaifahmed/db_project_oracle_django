@@ -109,6 +109,13 @@ def load_cart(request):
         row = {'category': category}
         cat_dict.append(row)
 
+    sql = """SELECT OFFER_ID FROM PRODUCT WHERE OFFER_ID IS NOT NULL;"""
+    cursor.execute(sql)
+    temp = cursor.fetchall()
+    if cursor.rowcount > 0:
+        row = {'category': "Discounts"}
+        cat_dict.append(row)
+
     cursor.close()
     cart_list = []
 

@@ -28,6 +28,7 @@ def load_category(request, slug):
 
     # Getting categories of products:
     cursor = connection.cursor()
+
     sql = """SELECT DISTINCT CATEGORY
             FROM PRODUCT
             WHERE PRODUCT_ID = ANY(
@@ -50,8 +51,17 @@ def load_category(request, slug):
         row = {'category': category}
         category_dict.append(row)
 
+    sql = """SELECT OFFER_ID FROM PRODUCT WHERE OFFER_ID IS NOT NULL;"""
+    cursor.execute(sql)
+    temp = cursor.fetchall()
+    if cursor.rowcount > 0:
+        row = {'category': "Discounts"}
+        category_dict.append(row)
+
     # Getting products list according to category which are in stock:
-    sql = """SELECT NAME, BRAND, PRICE, IMAGE_LINK, PRODUCT_ID, o.DESCRIPTION
+    sql = ""
+    if categ == "Discounts":
+        sql = """SELECT NAME, BRAND, PRICE, IMAGE_LINK, PRODUCT_ID, o.DESCRIPTION
             FROM THE_BAZAAR.PRODUCT p, THE_BAZAAR.OFFER o
             WHERE p.PRODUCT_ID = 
             ANY(
@@ -67,7 +77,26 @@ def load_category(request, slug):
             )
 
             AND p.OFFER_ID = o.OFFER_ID(+)
-            AND CATEGORY = '""" + categ + """';"""
+            AND p.OFFER_ID IS NOT NULL;"""
+    else:
+        sql = """SELECT NAME, BRAND, PRICE, IMAGE_LINK, PRODUCT_ID, o.DESCRIPTION
+                FROM THE_BAZAAR.PRODUCT p, THE_BAZAAR.OFFER o
+                WHERE p.PRODUCT_ID = 
+                ANY(
+                    SELECT PRODUCT_ID 
+                    FROM THE_BAZAAR.STOCK 
+                    WHERE EXPIRE_DATE > SYSDATE AND QUANTITY > 0
+
+                UNION
+
+                    SELECT PRODUCT_ID
+                    FROM THE_BAZAAR.STOCK WHERE
+                    EXPIRE_DATE IS NULL AND QUANTITY > 0
+                )
+
+                AND p.OFFER_ID = o.OFFER_ID(+)
+                AND CATEGORY = '""" + categ + """';"""
+
     cursor.execute(sql)
     product_list = cursor.fetchall()
 

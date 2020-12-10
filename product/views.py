@@ -84,6 +84,14 @@ def load_product(request, slug):
         row = {'category': category}
         cat_dict.append(row)
 
+
+    sql = """SELECT OFFER_ID FROM PRODUCT WHERE OFFER_ID IS NOT NULL;"""
+    cursor.execute(sql)
+    temp = cursor.fetchall()
+    if cursor.rowcount > 0:
+        row = {'category': "Discounts"}
+        cat_dict.append(row)
+
     customer_id = request.session.get('customer_id')
     customer_id = str(customer_id)
     sql = "SELECT EMAIL FROM CUSTOMER WHERE CUSTOMER_ID = " + customer_id
