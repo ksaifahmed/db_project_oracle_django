@@ -52,6 +52,21 @@ def get_cart_list(cart_list):
     return detailed_list, total, items, can_check_out
 
 
+def check_stock_before_buy(request):
+    if 'cart' in request.session:
+        cursor = connection.cursor()
+        cart_list = request.session['cart']
+        for cart in cart_list:
+            pid = str(cart['product_id'])
+            quan = str(cart['quantity'])
+
+            stock = cursor.callfunc('IS_IN_STOCK', str, [pid, quan])
+            if stock == "NO":
+                return False
+        return True
+    return True
+
+
 def load_cart(request):
 
     # send to login if no session exists:
@@ -69,7 +84,11 @@ def load_cart(request):
         payment = str(request.POST['payment'])
         gift_for = str(request.POST['gift'])
         cart_item_no = ""
-        check_out(payment, gift_for, request)
+        if check_stock_before_buy(request):
+            check_out(payment, gift_for, request)
+        else:
+            return redirect(load_cart)
+
 
     # search btn pressed
     if request.method == 'POST' and 'search-btn' in request.POST:
